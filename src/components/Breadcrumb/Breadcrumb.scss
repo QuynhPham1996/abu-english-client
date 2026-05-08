@@ -1,0 +1,33 @@
+@import '@/assets/styles/_global.scss';
+
+.Breadcrumb {
+  font-size: 1.4rem;
+  color: $pale-sky;
+  display: flex;
+  align-items: center;
+
+  &>span {
+    display: flex;
+    align-items: center;
+  }
+
+  .ant-breadcrumb-link {
+    color: $pale-sky;
+    cursor: pointer;
+    transition: $common-transition;
+
+    &.active,
+    &:hover {
+      color: $geraldine;
+    }
+  }
+
+  .ant-breadcrumb-separator {
+    margin: 0 .4rem;
+
+    .Icon {
+      width: 1.8rem;
+      height: 1.8rem;
+    }
+  }
+}

@@ -1,0 +1,40 @@
+@import '@/assets/styles/_global.scss';
+
+.Profile {
+  &-wrapper {
+    max-width: 60rem;
+    margin: auto;
+  }
+
+  &-member {
+    padding: 2.4rem;
+    margin: auto;
+
+    &-avatar {
+      .UploadImage {
+        border: none;
+      }
+    }
+
+    &-info {
+      &-title {
+        font-size: 3rem;
+        color: $shark;
+        font-weight: 600;
+      }
+
+      &-description {
+        font-size: 1.6rem;
+        color: $pale-sky;
+        column-gap: .8rem;
+
+        .Icon {
+          width: 2rem;
+          height: 2rem;
+          flex: 0 0 2rem;
+          max-width: 2rem;
+        }
+      }
+    }
+  }
+}

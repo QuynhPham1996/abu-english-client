@@ -1,0 +1,104 @@
+@import '@/assets/styles/_global.scss';
+
+.LandingBanner {
+  position: relative;
+  background: url('../../assets/images/bg-banner.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top bottom;
+  padding: 16rem 0 30rem;
+  overflow: hidden;
+
+  @media (max-width: 1440px) {
+    padding: 10rem 0 24rem;
+  }
+
+  @media (max-width: 991px) {
+    padding: 8rem 0;
+  }
+
+  &-wrapper {
+    &>.ant-row {
+      &>.ant-col {
+        position: static;
+      }
+    }
+  }
+
+  &-info {
+    position: relative;
+    z-index: 2;
+
+    &::before {
+      position: absolute;
+      content: 'Learn English Better';
+      z-index: 1;
+      font-size: 14rem;
+      color: rgba($white, 0.1);
+      font-weight: 800;
+      line-height: 1.1;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      transform: translateY(-10%);
+
+      @media (max-width: 575px) {
+        font-size: 12rem;
+      }
+    }
+
+    &-title {
+      font-size: 6.4rem;
+      font-weight: 900;
+      color: $white;
+      margin-bottom: 3.2rem;
+      line-height: 1.1;
+      max-width: 58rem;
+    }
+
+    &-description {
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: $white;
+      margin-bottom: 3.2rem;
+      max-width: 74rem;
+    }
+
+    &-btn {
+      .Button {
+        .ant-btn {
+          padding: 0.4rem 2.4rem;
+        }
+
+        &-title {
+          color: $geraldine;
+        }
+      }
+    }
+  }
+
+  &-image {
+    position: absolute;
+    min-width: 72rem;
+    width: 50%;
+    max-width: 84rem;
+    @include centerScaleImage;
+    bottom: 10%;
+
+    @media (max-width: 1600px) {
+      right: 0;
+    }
+
+    @media (max-width: 991px) {
+      position: static;
+      min-width: unset;
+      max-width: 72rem;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    img {
+      position: static !important;
+    }
+  }
+}

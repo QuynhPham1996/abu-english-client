@@ -1,0 +1,11 @@
+@import '@/assets/styles/_global.scss';
+
+.Student {
+  padding-top: 6.5rem;
+
+  &-body {
+    padding: 2.4rem;
+    min-height: calc(100vh - 6.5rem);
+    @include backgroundApp();
+  }
+}

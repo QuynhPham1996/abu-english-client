@@ -1,0 +1,25 @@
+@import '@/assets/styles/_global.scss';
+
+.DoExerciseIntroduction {
+  padding: 2.4rem 0;
+
+  &-wrapper {
+    max-width: 82rem;
+    width: 100%;
+    margin: auto;
+
+    h3 {
+      margin-bottom: 0.4rem;
+    }
+
+    p {
+      font-size: 1.6rem !important;
+    }
+
+    li {
+      &:not(:last-child) {
+        margin-bottom: .4rem;
+      }
+    }
+  }
+}

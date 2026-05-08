@@ -1,0 +1,172 @@
+@import '@/assets/styles/_global.scss';
+
+.ExerciseCard {
+  position: relative;
+  border-radius: 2.4rem;
+  transition: $common-transition;
+
+  &-wrapper {
+    padding: 1.6rem 3.2rem;
+    column-gap: 2.4rem;
+  }
+
+
+  @media (max-width: 575px) {
+    padding: 1.6rem;
+    column-gap: 1.2rem;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 1.2rem;
+
+    .ExerciseCard-circle {
+      &::before {
+        position: absolute;
+        content: '';
+        width: .4rem;
+        height: 100%;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
+        background: $pink;
+      }
+    }
+  }
+
+  &.completed {
+    .ExerciseCard {
+      &-circle {
+        border-color: $mountain-meadow;
+        background-color: $mountain-meadow;
+      }
+
+      &-info {
+
+        &-title,
+        &-description {
+          color: $pale-sky;
+        }
+
+        &-title {
+          span {
+            text-decoration: line-through;
+          }
+        }
+      }
+    }
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+
+    .ExerciseCard {
+      &-info {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  &:not(.disabled).active {
+    .ExerciseCard {
+      &-circle {
+        .ant-progress-circle .ant-progress-text {
+          animation: zoomInOut 1.5s linear infinite;
+
+          @keyframes zoomInOut {
+
+            0%,
+            100% {
+              transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+              transform: translate(-50%, -50%) scale(1.15);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &:not(.disabled):hover,
+  &:not(.disabled).active {
+    cursor: pointer;
+    background-color: rgba($geraldine, 0.05);
+  }
+
+  &-circle {
+    position: relative;
+    z-index: 2;
+    flex: 0 0 8.2rem;
+    max-width: 8.2rem;
+    height: 8.2rem;
+    width: 8.2rem;
+    border-radius: 50%;
+    border: .4rem solid $pink;
+    background: $pink;
+    box-shadow: inset 0 0 0 .4rem $white;
+
+    &-lock {
+      @include fullAbsolute;
+      z-index: 4;
+      background: rgba($white, 0.4);
+      border-radius: 50%;
+
+      .Icon {
+        width: 4.4rem;
+        height: 4.4rem;
+        margin: auto;
+      }
+    }
+
+    &-check {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      border: .3rem solid $white;
+      z-index: 4;
+      background: $mountain-meadow;
+      transform: translate(-50%, 50%);
+
+      .Icon {
+        width: 2rem;
+        height: 2rem;
+        margin: auto;
+      }
+    }
+
+    .ant-progress-inner {
+      width: 7.4rem !important;
+      height: 7.4rem !important;
+    }
+
+    .ant-progress-text {
+      font-weight: 700;
+      font-size: 4.2rem;
+      color: $white !important;
+    }
+  }
+
+  &-info {
+    &-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: $shark;
+      column-gap: .8rem;
+
+      span {
+        @include ellipsis(1);
+      }
+    }
+
+    &-description {
+      font-size: 1.4rem;
+      color: $shark;
+      @include ellipsis(2);
+    }
+  }
+}

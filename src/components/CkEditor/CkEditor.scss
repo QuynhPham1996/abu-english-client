@@ -1,0 +1,20 @@
+@import '@/assets/styles/_global.scss';
+
+
+.CkEditor {
+  &.disabled {
+    cursor: not-allowed;
+
+    * {
+      pointer-events: none;
+    }
+  }
+
+  .ck.ck-editor__editable_inline>:first-child {
+    margin-top: 1.2rem;
+  }
+
+  .ck.ck-editor__editable_inline {
+    padding: 0 1.2rem;
+  }
+}

@@ -1,0 +1,142 @@
+@import '@/assets/styles/_global.scss';
+
+.CourseDetailExerciseManagement {
+  &-table {
+    padding: 3.2rem 2.4rem;
+    border-radius: 2.4rem;
+    background: $white;
+    box-shadow: $box-shadow-3;
+    min-height: calc(100vh - 6.5rem - 4.8rem);
+  }
+
+  &-header {
+    margin: .8rem 0 2.4rem;
+  }
+
+  &-title {
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: $shark;
+    margin-bottom: 0.8rem;
+  }
+
+  &-card {
+    padding: 2.4rem;
+    border-radius: 1.2rem;
+    border: 1px solid $geyser;
+
+    &:not(:last-child) {
+      margin-bottom: 2.4rem;
+    }
+  }
+
+  &-subtitle {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: $shark;
+    margin-bottom: 1.2rem;
+  }
+
+  &-description {
+    font-size: 1.4rem;
+    color: $pale-sky;
+  }
+
+  &-info {
+    margin: 2.4rem 0;
+    color: $pale-sky;
+  }
+
+  &-price {
+    .CourseDetailManagement {
+      &-subtitle {
+        color: $pale-sky;
+        margin-bottom: 0rem;
+      }
+    }
+  }
+
+  &-manager {
+    &-item {
+      padding: .8rem 0;
+
+      &-info {
+        strong {
+          font-weight: 600;
+        }
+
+        &-title {
+          font-size: 1.4rem;
+          color: $shark;
+          font-weight: 600;
+          margin-bottom: -.4rem;
+
+          &.small {
+            font-size: 1.2rem;
+          }
+        }
+
+        &-description {
+          font-size: 1.4rem;
+          color: $pale-sky;
+
+          &.small {
+            font-size: 1.2rem;
+          }
+        }
+      }
+    }
+  }
+
+  &-upload {
+    height: 30rem;
+    margin-bottom: 2.4rem;
+
+    &-placeholder {
+      border: 2px dashed $geyser;
+      border-radius: 2.4rem;
+      height: 100%;
+      font-size: 1.4rem;
+      color: $pale-sky;
+      cursor: pointer;
+      transition: $common-transition;
+
+      &-icon {
+        margin-bottom: 0.8rem;
+      }
+
+      .Icon {
+        svg {
+          transition: $common-transition;
+        }
+      }
+
+      &:hover {
+        border-color: $geraldine;
+        color: $geraldine;
+
+        svg {
+          stroke: $geraldine;
+        }
+      }
+    }
+  }
+
+  &-exercises {
+    &-body {
+      position: relative;
+      min-height: 4rem;
+
+      &-loading {
+        @include fullAbsolute;
+        z-index: 3;
+        background: rgba($white, 0.2);
+        backdrop-filter: blur(2px);
+      }
+    }
+  }
+
+  .plyr--video {
+    border-radius: 1.2rem;
+  }
+}

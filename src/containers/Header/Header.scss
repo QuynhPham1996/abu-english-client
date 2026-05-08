@@ -1,0 +1,155 @@
+@import '@/assets/styles/_global.scss';
+
+.Header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: $white;
+  box-shadow: $box-shadow-1;
+  z-index: 10;
+
+  &-wrapper {
+    padding: .8rem 1.6rem;
+    border-bottom: 1px solid $mystic;
+
+    &>.ant-row {
+      height: 100%;
+      column-gap: 2.4rem;
+
+      @media (max-width: 991px) {
+        column-gap: 1.6rem;
+      }
+    }
+  }
+
+  &-logo {
+    width: 11rem;
+    height: 4.8rem;
+    @include centerOriginImage;
+
+    img {
+      position: static !important;
+    }
+  }
+
+  &-list {
+    &-item {
+      .Button {
+        .ant-btn {
+          height: 4rem;
+          border-radius: .8rem;
+          padding: .4rem .8rem;
+
+          .Icon {
+            width: 2.8rem;
+            height: 2.8rem;
+          }
+        }
+      }
+    }
+  }
+
+  &-account {
+    border-radius: 50%;
+
+    &.active {
+      box-shadow: 0 0 0 .3rem rgba($geraldine, 0.4), 0 0 0 .6rem rgba($geraldine, 0.2);
+    }
+
+    .Avatar {
+      .ant-avatar {
+        @media (max-width: 991px) {
+          width: 36px !important;
+          height: 36px !important;
+
+          .ant-avatar-string {
+            line-height: 36px !important;
+          }
+        }
+      }
+    }
+  }
+
+  &-menu-mobile {
+    .ant-drawer-mask {
+      backdrop-filter: blur(2px);
+    }
+
+    .ant-drawer-body,
+    .ant-drawer-header {
+      padding: 2.4rem;
+    }
+
+    .ant-drawer-header {
+      border-color: $geyser;
+    }
+
+    .ant-drawer-header-title {
+      flex-direction: row-reverse;
+
+      .ant-drawer-title {
+        color: $shark;
+        font-size: 2.8rem;
+        font-weight: 600;
+      }
+    }
+
+    .ant-drawer-body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ant-drawer-close {
+      padding: 0;
+      margin: 0;
+    }
+
+    .Header-list {
+      &>.ant-row {
+        flex-direction: column;
+      }
+
+      .Button {
+        .ant-btn {
+          height: auto;
+          padding: 1.6rem;
+        }
+
+        &-wrapper {
+          justify-content: flex-start;
+          column-gap: 1.2rem;
+        }
+
+        &-icon {
+          .Icon {
+            width: 3.2rem;
+            height: 3.2rem;
+          }
+        }
+
+        &-badge {
+          font-size: 1.6rem;
+          right: unset;
+          left: 0;
+          transform: translate(-25%, -50%);
+        }
+
+        &-title {
+          font-size: 2.4rem;
+        }
+      }
+    }
+
+    &-footer {
+      margin-top: auto;
+      font-size: 1.6rem;
+      color: $pale-sky;
+      text-align: center;
+
+      .Header-logo {
+        margin: 0 auto 1.6rem;
+      }
+    }
+  }
+}

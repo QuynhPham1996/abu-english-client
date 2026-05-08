@@ -1,0 +1,70 @@
+@import '@/assets/styles/_global.scss';
+
+.Exercises {
+  max-width: 120rem;
+  margin: auto;
+
+  &-summary {
+    margin-bottom: 4.8rem;
+
+    &-item {
+      column-gap: 1.6rem;
+
+      @media (max-width: 575px) {
+        flex-direction: column;
+        align-items: flex-start !important;
+      }
+
+      &-bar {
+        position: relative;
+        border-radius: 50%;
+        width: 8.8rem;
+        height: 8.8rem;
+        border: .4rem solid $white;
+        overflow: hidden;
+
+        &>div {
+          height: 100%;
+        }
+
+        &-line {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+        }
+      }
+
+      &-info {
+        &-title {
+          font-size: 3rem;
+          color: $shark;
+          font-weight: 500;
+          margin-bottom: -0.4rem;
+
+          @media (max-width: 575px) {
+            font-size: 2.4rem;
+          }
+        }
+
+        &-description {
+          font-size: 1.6rem;
+          color: $pale-sky;
+          @include ellipsis(1);
+
+          @media (max-width: 575px) {
+            font-size: 1.4rem;
+          }
+        }
+      }
+    }
+  }
+
+  &-table {
+    padding: 1.6rem;
+    border-radius: 2.4rem;
+    background: $white;
+    box-shadow: $box-shadow-3;
+    min-height: calc((100vh - 6.5rem - 2.4rem * 2 - 4.8rem - 8.8rem));
+  }
+}

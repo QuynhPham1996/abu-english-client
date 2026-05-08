@@ -1,0 +1,178 @@
+@mixin ellipsis($line) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $line;
+  -webkit-box-orient: vertical;
+}
+
+@mixin fullAbsolute {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+@mixin centerAbsolute {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin centerScaleImage {
+  display: flex;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    margin: auto;
+  }
+}
+
+@mixin centerOriginImage {
+  display: flex;
+
+  svg,
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    object-position: center;
+    margin: auto;
+  }
+}
+
+@mixin styleScrollBar() {
+  &::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.03);
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    height: 30px;
+  }
+
+  &::-webkit-scrollbar {
+    width: 2px;
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 16px;
+    height: 30px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #1b1e24;
+    border: 2px solid #1b1e24;
+  }
+}
+
+@mixin backgroundColorPrimary($deg) {
+  background: linear-gradient($deg, rgb(216, 243, 255), rgba(255, 143, 167, 0.42), rgba(1, 16, 240, 0.28));
+}
+
+@mixin triangle($direction, $color, $height, $width) {
+  // Base styles for all triangles
+  border-style: solid;
+  height: 0;
+  width: 0;
+
+  // Cardinal Directions - can't be scalene this way
+  @if($direction=='top') {
+    border-color: transparent transparent $color transparent;
+    border-width: 0 calc($width/2) $height calc($width/2);
+  }
+
+  @if ($direction=='bottom') {
+    border-top-color: $color;
+    border-right-color: transparent !important;
+    border-bottom-color: transparent !important;
+    border-left-color: transparent !important;
+    border-width: $height calc($width/2) 0 calc($width/2);
+  }
+
+  @if ($direction=='right') {
+    border-top-color: transparent !important;
+    border-right-color: transparent !important;
+    border-bottom-color: transparent !important;
+    border-left-color: $color;
+    border-width: calc($height/2) 0 calc($height/2) $width;
+  }
+
+  @if ($direction=='left') {
+    border-top-color: transparent !important;
+    border-right-color: $color;
+    border-bottom-color: transparent !important;
+    border-left-color: transparent !important;
+    border-width: calc($height/2) $width calc($height/2) 0;
+  }
+
+  // Ordinal Directions - can be scalene this way!
+  @if ($direction=='top-left') {
+    border-top-color: $color;
+    border-right-color: transparent !important;
+    border-bottom-color: transparent !important;
+    border-left-color: transparent !important;
+    border-width: $height $width 0 0;
+  }
+
+  @if ($direction=='top-right') {
+    border-top-color: transparent !important;
+    border-right-color: $color;
+    border-bottom-color: transparent !important;
+    border-left-color: transparent !important;
+    border-width: 0 $width $height 0;
+  }
+
+  @if ($direction=='bottom-left') {
+    border-top-color: transparent !important;
+    border-right-color: transparent !important;
+    border-bottom-color: transparent !important;
+    border-left-color: $color;
+    border-width: $height 0 0 $width;
+  }
+
+  @if ($direction=='bottom-right') {
+    border-top-color: transparent !important;
+    border-right-color: transparent !important;
+    border-bottom-color: $color;
+    border-left-color: transparent !important;
+    border-width: 0 0 $height $width;
+  }
+}
+
+@mixin shiningTextAnimation($color) {
+  background: #222 -webkit-gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.5, $white)) 0 0 no-repeat;
+  color: $color;
+  -webkit-background-size: 150px;
+  -webkit-background-clip: text;
+  -webkit-animation-name: shine;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-iteration-count: infinite;
+  text-shadow: 0 0px 0px rgba($white, 0.5);
+
+  @keyframes shine {
+    0% {
+      background-position: -500px;
+    }
+
+    100% {
+      background-position: 500px;
+    }
+  }
+}
+
+
+@mixin backgroundApp() {
+  background: url('../images/bg-app.svg');
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+
+  @media (max-width: 768px) {
+    background: url('../images/bg-app-mobile.svg');
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+  }
+}

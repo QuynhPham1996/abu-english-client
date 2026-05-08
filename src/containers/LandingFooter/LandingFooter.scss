@@ -1,0 +1,93 @@
+@import '@/assets/styles/_global.scss';
+
+.LandingFooter {
+  position: relative;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 70vw;
+    height: 100%;
+    content: '';
+    background: url('../../assets/images/bg-footer.svg');
+    background-size: contain;
+    background-position: left bottom;
+    background-repeat: no-repeat;
+
+    @media (max-width: 991px) {
+      width: 80vw;
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+      background-size: cover;
+    }
+  }
+
+  &-wrapper {
+    position: relative;
+    z-index: 1;
+    padding: 12.8rem 0 2.4rem;
+    column-gap: 7.2rem;
+
+    @media (max-width: 991px) {
+      column-gap: 4.8rem;
+    }
+
+    @media (max-width: 768px) {
+      padding-top: 9.6rem;
+      flex-direction: column;
+      align-items: flex-start !important;
+      row-gap: 3.2rem;
+    }
+  }
+
+  &-logo {
+    width: 19.5rem;
+    height: 9rem;
+    transform: translateY(-10%);
+    @include centerOriginImage;
+
+    img {
+      position: static !important;
+    }
+  }
+
+  &-address {
+    flex: 1;
+    font-size: 1.6rem;
+    color: $white;
+    font-weight: 400;
+
+    a {
+      color: $white;
+      font-weight: 600;
+
+      &:hover {
+        text-decoration: underline;
+        color: $white;
+      }
+    }
+  }
+
+  &-socials {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: $pale-sky;
+    column-gap: 2rem;
+
+    @media (max-width: 768px) {
+      color: $white;
+    }
+
+    &-item {
+      .Icon {
+        width: 4.8rem;
+        height: 4.8rem;
+        flex: 0 0 4.8rem;
+        max-width: 4.8rem;
+      }
+    }
+  }
+}

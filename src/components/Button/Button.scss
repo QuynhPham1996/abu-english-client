@@ -1,0 +1,203 @@
+@import '@/assets/styles/_global.scss';
+
+.Button {
+  &-wrapper {
+    column-gap: 0.4rem;
+  }
+
+  .ant-btn {
+    border-radius: 2.4rem;
+    transition: $common-transition;
+    border: none;
+    height: 4.2rem;
+    font-weight: 500;
+    box-shadow: none !important;
+    width: 100%;
+    padding: .4rem 1.2rem;
+    font-size: 1.4rem;
+
+    &:disabled {
+      opacity: 0.6;
+    }
+
+    &.ant-btn-sm {
+      height: 3.6rem;
+      font-size: 1.2rem;
+
+      .Icon {
+        width: 2rem;
+        height: 2rem;
+      }
+    }
+
+    &.ant-btn-lg {
+      height: 4.8rem;
+      font-size: 1.6rem;
+
+      .Icon {
+        width: 2.4rem;
+        height: 2.4rem;
+      }
+    }
+
+    .Icon {
+      width: 2.4rem;
+      height: 2.4rem;
+
+      svg {
+        transition: $common-transition;
+      }
+    }
+  }
+
+  &-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 1.2rem;
+    color: $white;
+    font-weight: 700;
+    background: $alizarin-crimson;
+    padding: .1rem .8rem;
+    border-radius: 1.2rem;
+    transform: translate(50%, -25%);
+  }
+
+  &.only-icon {
+    .ant-btn {
+      width: 4.2rem;
+      padding: 0;
+
+      &.ant-btn-sm {
+        width: 3.6rem;
+
+        .Icon {
+          width: 2rem;
+          height: 2rem;
+        }
+      }
+
+      .Icon {
+        margin: auto;
+        width: 2.4rem;
+        height: 2.4rem;
+      }
+    }
+  }
+
+  &.PRIMARY {
+    .ant-btn {
+      background: $geraldine;
+      color: $white;
+
+      &:not(:disabled):hover {
+        background-color: lighten($geraldine, 5%);
+      }
+    }
+  }
+
+  &.WHITE {
+    .ant-btn {
+      background: $white;
+      color: $shark;
+
+      &:not(:disabled):hover {
+        background-color: darken($white, 5%);
+      }
+    }
+  }
+
+  &.DANGER {
+    .ant-btn {
+      background: $alizarin-crimson;
+      color: $white;
+
+      &:not(:disabled):hover {
+        background-color: darken($alizarin-crimson, 5%);
+      }
+    }
+  }
+
+  &.WHITE_GRAY {
+
+    &.active .ant-btn,
+    .ant-btn:not(:disabled):hover {
+      background-color: rgba($geraldine, 0.05);
+      color: $geraldine;
+
+      .Icon {
+        svg {
+          stroke: $geraldine;
+        }
+      }
+    }
+
+    .ant-btn {
+      background: $white;
+      color: $pale-sky;
+
+      .Icon {
+        svg {
+          stroke: $pale-sky;
+        }
+      }
+    }
+  }
+
+  &.TRANSPARENT_GEYSER {
+    .ant-btn {
+      background-color: lighten($geyser, 5%);
+      color: $shark;
+
+      &:not(:disabled):hover {
+        background-color: lighten($geyser, 2%);
+      }
+    }
+  }
+
+  &.TRANSPARENT_SUCCESS {
+    .ant-btn {
+      background-color: rgba($mountain-meadow, 0.05);
+      color: $mountain-meadow;
+
+      &:not(.disabled):hover {
+        background-color: rgba($mountain-meadow, 0.1);
+      }
+    }
+  }
+
+  &.TRANSPARENT_DANGER {
+    .ant-btn {
+      background-color: rgba($alizarin-crimson, 0.05);
+      color: $alizarin-crimson;
+
+      &:not(.disabled):hover {
+        background-color: rgba($alizarin-crimson, 0.1);
+      }
+    }
+  }
+
+  &.OUTLINE_GEYSER {
+    .ant-btn {
+      background: $white;
+      color: $shark;
+      border: 1px solid $geyser;
+
+      &:not(:disabled):hover {
+        background-color: darken($white, 5%);
+      }
+    }
+  }
+
+  &.OUTLINE_GERALDINE {
+    .ant-btn {
+      background: $white;
+      color: $geraldine;
+      border: 1px solid $geraldine;
+
+      &:not(:disabled):hover {
+        background-color: darken($white, 5%);
+      }
+    }
+  }
+}

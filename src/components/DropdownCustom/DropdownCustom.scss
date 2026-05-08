@@ -1,0 +1,28 @@
+@import '@/assets/styles/_global.scss';
+
+.DropdownCustom {
+  &-wrapper {
+    cursor: pointer;
+  }
+
+  .ant-dropdown-open {
+    &>{
+      .Button {
+        &.WHITE {
+          .ant-btn {
+            background-color: darken($white, 5%);
+          }
+        }
+      }
+    }
+
+  }
+
+  &-overlay {
+    border-radius: 1.2rem;
+    overflow: hidden;
+    background: $white;
+    box-shadow: $box-shadow-1;
+    border: 1px solid $mystic;
+  }
+}

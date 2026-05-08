@@ -1,0 +1,93 @@
+@import '@/assets/styles/_global.scss';
+
+.LandingWhyChooseUs {
+  padding: 9.6rem 0;
+  overflow: hidden;
+
+  &-title {
+    font-size: 3.6rem;
+    color: $black;
+    font-weight: 800;
+    margin-bottom: 9.6rem;
+  }
+
+  &-main {
+    &-item {
+      position: relative;
+
+      &.reverse {
+        &>.ant-row {
+          flex-direction: row-reverse;
+
+          &>.ant-col {
+            position: static;
+          }
+        }
+
+        .LandingWhyChooseUs-main-item {
+          &-background {
+            left: 0;
+            transform: translate(-25%, -50%);
+          }
+        }
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 12.8rem;
+      }
+
+      &-background {
+        position: absolute;
+        width: 70%;
+        top: 50%;
+        right: 0;
+        transform: translate(25%, -50%);
+        z-index: -1;
+        @include centerOriginImage;
+
+        @media (max-width: 768px) {
+          width: 100%;
+        }
+
+        img {
+          position: static !important;
+          height: auto;
+        }
+      }
+
+      &-subtitle {
+        font-size: 1.8rem;
+        color: $pale-sky;
+        font-weight: 800;
+        margin-bottom: 0.8rem;
+      }
+
+      &-title {
+        font-size: 3.2rem;
+        font-weight: 800;
+        color: $black;
+        margin-bottom: 1.6rem;
+      }
+
+      &-description {
+        color: $shark;
+        font-size: 2rem;
+        font-weight: 500;
+      }
+
+      &-image {
+        @include centerOriginImage;
+        margin: auto;
+
+        @media (max-width: 991px) {
+          max-width: 70rem !important;
+        }
+
+        img {
+          position: static !important;
+          height: auto;
+        }
+      }
+    }
+  }
+}

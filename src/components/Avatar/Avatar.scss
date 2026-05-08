@@ -1,0 +1,33 @@
+@import '@/assets/styles/_global.scss';
+
+.Avatar {
+  &.onclick {
+    cursor: pointer;
+  }
+
+  &.small {
+    &>.ant-avatar .ant-avatar-string {
+      transform: scale(0.7) translateX(-50%) !important;
+    }
+  }
+
+  &.large {
+    &>.ant-avatar .ant-avatar-string {
+      transform: scale(2) translateX(-50%) !important;
+    }
+  }
+
+  .ant-avatar {
+    transition: $common-transition;
+    background: linear-gradient(235deg, $geraldine, $pink);
+
+    &.ant-avatar-image {
+      background: transparent;
+    }
+
+    &-string {
+      font-weight: 500;
+      color: $white;
+    }
+  }
+}

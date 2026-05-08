@@ -1,0 +1,142 @@
+@import '@/assets/styles/_global.scss';
+
+.DatePicker {
+  .ant-picker {
+    height: 4.2rem;
+    padding: .8rem 1.2rem;
+    background: $white;
+    border-radius: .4rem;
+    border: 1px solid $geyser;
+    box-shadow: none;
+    width: 100%;
+    font-size: 1.4rem;
+    color: $shark;
+
+    &.ant-picker-range {
+      .ant-picker-active-bar {
+        background: $geraldine;
+        margin-left: 0;
+      }
+    }
+
+    &:hover,
+    &:focus,
+    &.ant-picker-focused {
+      border-color: $geyser;
+    }
+
+    &:focus,
+    &.ant-picker-focused {
+      // box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+      box-shadow: none;
+    }
+
+    input {
+      &::placeholder {
+        color: $pale-sky;
+      }
+    }
+  }
+
+  .ant-picker-prefix {
+    margin-right: 1.2rem;
+  }
+
+  .ant-picker-suffix {
+    margin-left: 1.2rem;
+  }
+
+  .ant-picker-suffix,
+  .ant-picker-prefix {
+    .Icon {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+  }
+
+  &-dropdown {
+
+    .ant-picker-week-panel-row-selected td.ant-picker-cell-today .ant-picker-cell-inner::before,
+    .ant-picker-week-panel-row-selected:hover td.ant-picker-cell-today .ant-picker-cell-inner::before {
+      border-color: $white !important;
+    }
+
+    .ant-picker-cell-in-view.ant-picker-cell-range-start:not(.ant-picker-cell-range-start-single):not(.ant-picker-cell-range-end) .ant-picker-cell-inner,
+    .ant-picker-week-panel-row-selected td:first-child {
+      border-radius: .4rem 0 0 .4rem;
+    }
+
+    .ant-picker-cell-in-view.ant-picker-cell-range-end:not(.ant-picker-cell-range-end-single):not(.ant-picker-cell-range-start) .ant-picker-cell-inner,
+    .ant-picker-week-panel-row-selected td:last-child {
+      border-radius: 0 .4rem .4rem 0;
+    }
+
+    .ant-picker-week-panel-row-selected td,
+    .ant-picker-week-panel-row-selected:hover td {
+      background: $geraldine;
+    }
+
+    .ant-picker-time-panel-column>li.ant-picker-time-panel-cell .ant-picker-time-panel-cell-inner:hover {
+      background: rgba($pale-sky, 0.05);
+    }
+
+    .ant-picker-time-panel-column>li.ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner {
+      background: $geraldine;
+      color: $white;
+    }
+
+    .ant-picker-header-view {
+      white-space: nowrap;
+    }
+
+    .ant-picker-header-view button:hover {
+      color: $geraldine;
+    }
+
+    .ant-picker-header>button:hover {
+      color: $geraldine;
+    }
+
+    .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
+    .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+    .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+      background: $geraldine;
+    }
+
+    .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+      border-color: $geraldine;
+      border-radius: .4rem;
+    }
+
+    .ant-picker-today-btn {
+      color: $geraldine;
+    }
+
+    .ant-picker-cell .ant-picker-cell-inner {
+      border-radius: .4rem;
+    }
+
+    .ant-picker-panel-container {
+      border-radius: .8rem;
+      box-shadow: $box-shadow-1;
+    }
+
+    .ant-picker-cell-in-view.ant-picker-cell-range-start:not(.ant-picker-cell-range-start-single)::before,
+    .ant-picker-cell-in-view.ant-picker-cell-range-end:not(.ant-picker-cell-range-end-single)::before,
+    .ant-picker-cell-in-view.ant-picker-cell-in-range::before {
+      background: rgba($pale-sky, 0.05);
+    }
+
+    .ant-picker-year-panel .ant-picker-cell-inner,
+    .ant-picker-quarter-panel .ant-picker-cell-inner,
+    .ant-picker-month-panel .ant-picker-cell-inner {
+      width: unset;
+    }
+
+    .ant-picker-content th,
+    .ant-picker-content td {
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+  }
+}

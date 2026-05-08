@@ -1,0 +1,46 @@
+@import '@/assets/styles/_global.scss';
+
+.ModalConfirm {
+  .Modal-body {
+    padding: 0;
+  }
+
+  &-wrapper {
+    padding: 2rem 2.4rem 1.6rem;
+  }
+
+  &-info {
+    &-title {
+      font-size: 1.6rem;
+      color: $shark;
+      font-weight: 600;
+      margin-bottom: .8rem;
+    }
+
+    &-description {
+      font-size: 1.4rem;
+      color: $pale-sky;
+
+      strong {
+        color: $shark;
+        font-weight: 600;
+      }
+
+      a {
+        color: $geraldine;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &-actions {
+    column-gap: .8rem;
+    margin-top: 2.4rem;
+
+    .Button {
+      .ant-btn {
+        width: 9rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,88 @@
+@import '@/assets/styles/_global.scss';
+
+.LessonCard {
+  position: relative;
+  transition: $common-transition;
+
+  &:not(:last-child) {
+    margin-bottom: 1.2rem;
+  }
+
+  &-wrapper {
+    border-radius: 1.2rem;
+    border: 1px solid $geyser;
+    padding: 1.2rem 1.6rem;
+    column-gap: 1.2rem;
+    background: $white;
+    box-shadow: $box-shadow-3;
+  }
+
+  &.completed {
+    .LessonCard {
+      &-wrapper {
+        background: lighten($mountain-meadow, 55%);
+        border-color: $mountain-meadow;
+      }
+
+      &-info {
+
+        &-title,
+        &-description {
+          color: $pale-sky;
+        }
+
+        &-title {
+          span {
+            text-decoration: line-through;
+          }
+        }
+      }
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba($geyser, 0.05);
+  }
+
+  &-info {
+    flex: 1;
+
+    &-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: $shark;
+      column-gap: .8rem;
+
+      span {
+        @include ellipsis(1);
+      }
+    }
+
+    &-description {
+      font-size: 1.4rem;
+      color: $shark;
+      @include ellipsis(2);
+    }
+  }
+
+  &-check {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: .3rem solid $white;
+    z-index: 4;
+    background: $mountain-meadow;
+    transform: translate(-50%, -50%);
+    box-shadow: $box-shadow-3;
+
+    .Icon {
+      width: 2rem;
+      height: 2rem;
+      margin: auto;
+    }
+  }
+}

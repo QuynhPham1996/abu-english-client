@@ -1,0 +1,64 @@
+@import '@/assets/styles/_global.scss';
+
+.ModalUploadExerciseVideo {
+  .ant-upload.ant-upload-drag {
+    border: 2px dashed $geyser;
+    border-radius: 1.2rem;
+    background: rgba($pale-sky, 0.01);
+
+    .ant-upload {
+      padding: 2.4rem 0;
+    }
+  }
+
+  .ant-upload.ant-upload-drag:not(.ant-upload-disabled).ant-upload-drag-hover,
+  .ant-upload.ant-upload-drag:not(.ant-upload-disabled):hover {
+    border-color: $geraldine;
+  }
+
+  &-upload {
+    &-wrapper {
+      max-width: 32rem;
+      margin: 0 auto;
+    }
+  }
+
+  &-icon {
+    margin-bottom: 1.6rem;
+    width: 6.4rem;
+    height: 6.4rem;
+    @include centerOriginImage;
+
+    img {
+      position: static !important;
+    }
+  }
+
+  &-text {
+    font-size: 1.4rem;
+    color: $shark;
+    font-weight: 600;
+    text-align: center;
+
+    &.small {
+      font-size: 1.2rem;
+      color: $pale-sky;
+      font-weight: 400;
+    }
+  }
+
+  &-btn {
+    margin-top: 0.8rem;
+    min-width: 14rem;
+  }
+
+  &-process {
+    width: 100%;
+
+    .ant-progress-line {
+      .ant-progress-inner {
+        border: 1px solid $geyser;
+      }
+    }
+  }
+}

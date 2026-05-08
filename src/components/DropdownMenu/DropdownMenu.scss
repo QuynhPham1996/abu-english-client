@@ -1,0 +1,74 @@
+@import '@/assets/styles/_global.scss';
+
+.DropdownMenu {
+  &-wrapper {
+    cursor: pointer;
+  }
+
+  &-overlay {
+    border-radius: 1.2rem;
+    overflow: hidden;
+    background: $white;
+    box-shadow: $box-shadow-1;
+    border: 1px solid $mystic;
+  }
+
+  // .ant-dropdown-open {}
+
+  &-list {
+    min-width: 20rem;
+    padding: 1rem 0;
+
+    &-item {
+      height: 4rem;
+      padding: 1rem 1.6rem;
+      transition: $common-transition;
+      cursor: pointer;
+      column-gap: .8rem;
+      font-size: 1.4rem;
+
+      &:not(:last-child) {
+        margin-bottom: 0.4rem;
+      }
+
+      .Icon {
+        width: 2.4rem;
+        height: 2.4rem;
+
+        svg {
+          transition: $common-transition;
+        }
+      }
+
+      &.danger {
+        color: $alizarin-crimson;
+
+        .Icon {
+          svg {
+            stroke: $alizarin-crimson;
+          }
+        }
+
+        &.active,
+        &:hover {
+          color: $alizarin-crimson;
+          background: rgba($alizarin-crimson, 0.05);
+
+          .Icon {
+            svg {
+              stroke: $alizarin-crimson;
+            }
+          }
+        }
+      }
+
+      &.active {
+        background: rgba($geraldine, 0.1);
+      }
+
+      &:hover {
+        background: rgba($pale-sky, 0.05);
+      }
+    }
+  }
+}

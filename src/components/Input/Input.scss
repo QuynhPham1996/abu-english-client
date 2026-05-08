@@ -1,0 +1,92 @@
+@import '@/assets/styles/_global.scss';
+
+.Input {
+  &.editable {
+    .ant-input-affix-wrapper {
+      padding: 0;
+      border: none;
+    }
+  }
+
+  &.readonly-text {
+    margin-top: -1.2rem;
+
+    .ant-input,
+    .ant-input-affix-wrapper {
+      padding-left: 0;
+      padding-right: 0;
+      border: none;
+    }
+  }
+
+  .ant-input-affix-wrapper,
+  .ant-input {
+    height: 4.2rem;
+    padding: 1rem;
+    background: $white;
+    border-radius: .4rem;
+    border: 1px solid $geyser;
+    box-shadow: none;
+    width: 100%;
+  }
+
+  .ant-input {
+    font-size: 1.4rem;
+    color: $shark;
+
+    &:disabled {}
+
+    &:hover,
+    &:focus,
+    &.ant-input-focused {
+      border-color: $pink;
+    }
+
+    &:focus,
+    &.ant-input-focused {
+      box-shadow: none;
+    }
+
+    &::placeholder {
+      color: $pale-sky;
+    }
+  }
+
+  .ant-input-affix-wrapper {
+    &.ant-input-affix-wrapper-disabled {
+      .ant-input {
+        background: transparent;
+      }
+    }
+
+    &:not(.ant-input-affix-wrapper-disabled):hover {
+      border-color: $pink;
+    }
+
+    .ant-input {
+      border: none;
+      height: unset;
+      padding: 0;
+    }
+
+    .ant-input-prefix {
+      margin-right: 1.2rem;
+    }
+
+    .ant-input-suffix {
+      margin-left: 1.2rem;
+
+      .ant-input-password-icon {
+        cursor: pointer;
+      }
+    }
+
+    .ant-input-suffix,
+    .ant-input-prefix {
+      .Icon {
+        width: 2.4rem;
+        height: 2.4rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+@import '@/assets/styles/_global.scss';
+
+.QuestionsSortable {
+  &-item {
+    box-shadow: $box-shadow-3;
+    padding: 1.6rem;
+    border-radius: 1.6rem;
+    background: $white;
+
+    &:not(:last-child) {
+      margin-bottom: 1.2rem;
+    }
+
+    &-holder {
+      cursor: grab;
+
+      .Icon {
+        width: 2.4rem;
+        height: 2.4rem;
+      }
+    }
+
+    &-title {
+      font-size: 1.4rem;
+      color: $shark;
+    }
+  }
+}

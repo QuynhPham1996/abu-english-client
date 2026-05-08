@@ -1,0 +1,75 @@
+@import '@/assets/styles/_global.scss';
+
+.ReviewCard {
+  border: 1px solid $geyser;
+  padding: 3.6rem 3.2rem 2.4rem;
+  border-radius: 5rem;
+  background: $white;
+
+  &-title {
+    font-size: 2rem;
+    color: $shark;
+    font-weight: 700;
+  }
+
+  &-quote {
+    margin: 1.2rem 0;
+
+    .Icon {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+  }
+
+  &-description {
+    height: 23rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: $pale-sky;
+    @include ellipsis(9);
+  }
+
+  &-user {
+    padding-top: 1.6rem;
+    margin-top: 1.6rem;
+    border-top: 1px solid $geyser;
+    column-gap: 1.2rem;
+
+    &-avatar {
+      flex: 0 0 5.2rem;
+      max-width: 5.2rem;
+      width: 5.2rem;
+      height: 5.2rem;
+      @include centerScaleImage;
+
+      @media (max-width: 991px) {
+        flex: 0 0 4.8rem;
+        max-width: 4.8rem;
+        width: 4.8rem;
+        height: 4.8rem;
+      }
+
+      // .Avatar {
+      //   .ant-avatar {
+      //     @media (max-width: 991px) {
+      //       width: 4.8rem !important;
+      //       height: 4.8rem !important;
+      //     }
+      //   }
+      // }
+    }
+
+    &-info {
+      &-title {
+        font-size: 1.4rem;
+        color: $shark;
+        font-weight: 700;
+      }
+
+      &-description {
+        font-size: 1.4rem;
+        color: $pale-sky;
+      }
+    }
+  }
+}

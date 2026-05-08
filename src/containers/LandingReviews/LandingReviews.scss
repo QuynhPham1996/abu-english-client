@@ -1,0 +1,40 @@
+@import '@/assets/styles/_global.scss';
+
+.LandingReviews {
+  overflow: hidden;
+  padding: 7.2rem 0;
+  background: url('../../assets/images/bg-landing-reviews.png');
+  background-size: cover;
+  background-position: center;
+
+  &-wrapper {
+    position: relative;
+  }
+
+  &-title {
+    font-size: 3.6rem;
+    color: $black;
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: 1.6rem;
+  }
+
+  &-description {
+    max-width: 64rem;
+    font-size: 2rem;
+    color: $pale-sky;
+    font-weight: 700;
+    margin-bottom: 7.2rem;
+  }
+
+  &-main {
+    .slick-list {
+      overflow: unset;
+    }
+
+    &-item {
+      width: 35rem !important;
+      margin-right: 3.2rem;
+    }
+  }
+}

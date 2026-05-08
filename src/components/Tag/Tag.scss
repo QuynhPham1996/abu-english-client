@@ -1,0 +1,83 @@
+@import '@/assets/styles/_global.scss';
+
+.Tag {
+  width: fit-content;
+  padding: 0.8rem;
+  transition: $common-transition;
+  border-radius: .8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: .4rem;
+
+  &.small {
+    padding: .2rem .6rem;
+    height: 2.4rem;
+
+    .Tag {
+      &-title {
+        font-size: 1.2rem;
+      }
+
+      &-icon {
+        .Icon {
+          width: 2rem;
+          height: 2rem;
+        }
+      }
+    }
+  }
+
+  &-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  &-icon {
+    .Icon {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+  }
+
+  &.GENERAL {
+    background: rgba($pale-sky, 0.05);
+
+    .Tag {
+      &-title {
+        color: $shark;
+      }
+    }
+  }
+
+  &.DANGER {
+    background: $alizarin-crimson;
+
+    .Tag {
+      &-title {
+        color: $white;
+      }
+    }
+  }
+
+  &.WARNING {
+    background: $sunglow;
+
+    .Tag {
+      &-title {
+        color: $black;
+      }
+    }
+  }
+
+  &.SUCCESS {
+    background: $mountain-meadow;
+
+    .Tag {
+      &-title {
+        color: $white;
+      }
+    }
+  }
+}

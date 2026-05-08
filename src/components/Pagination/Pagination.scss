@@ -1,0 +1,66 @@
+@import '@/assets/styles/_global.scss';
+
+.Pagination {
+  &-label {
+    font-size: 1.2rem;
+    line-height: 2rem;
+    color: $pale-sky;
+    margin-right: 1.6rem;
+  }
+
+  .ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-link-icon,
+  .ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-link-icon {
+    color: $geraldine;
+  }
+
+  .ant-pagination-prev,
+  .ant-pagination-next {
+    min-width: 3.6rem;
+    height: 3.6rem;
+
+    .Button .ant-btn {
+      border-radius: 50%;
+    }
+  }
+
+  .ant-pagination-prev {
+    order: 98;
+  }
+
+  .ant-pagination-next {
+    order: 99;
+  }
+
+  .ant-pagination {
+    display: flex;
+    align-items: center;
+
+    &-item {
+      height: 2.4rem;
+      min-width: 2.4rem;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 0.4rem;
+      color: $pale-sky;
+
+      &:hover,
+      &.ant-pagination-item-active {
+        a {
+          color: $geraldine;
+        }
+      }
+
+      a {
+        line-height: 1;
+        transition: $common-transition;
+      }
+    }
+  }
+
+  .ant-pagination-item-ellipsis {
+    font-size: 1rem;
+    color: $pale-sky !important;
+  }
+}

@@ -1,0 +1,143 @@
+@import '@/assets/styles/_global.scss';
+
+.CourseCard {
+  position: relative;
+  background: $white;
+  box-shadow: $box-shadow-3;
+  padding: 1.6rem;
+  border-radius: 1.2rem;
+
+  .ant-ribbon-text {
+    color: unset;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  &-badge {
+    position: absolute;
+    top: -.7rem;
+    right: .8rem;
+    width: 8rem;
+    height: 8rem;
+    z-index: 2;
+    @include centerOriginImage;
+
+    span {
+      @include centerAbsolute;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: $white;
+      text-align: center;
+    }
+  }
+
+  &-image {
+    position: relative;
+    height: 24rem;
+    border-radius: 1.2rem;
+    overflow: hidden;
+    background: rgba($pale-sky, 0.1);
+    @include centerScaleImage;
+
+    @media (max-width: 991px) {
+      height: 26vw;
+    }
+
+    @media (max-width: 575px) {
+      height: 53vw;
+    }
+
+    img {
+      position: static !important;
+    }
+
+    &-level {
+      position: absolute;
+      border-radius: 2.4rem;
+      background: $white;
+      column-gap: .4rem;
+      padding: .8rem;
+      bottom: 1.2rem;
+      left: 1.2rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      box-shadow: $box-shadow-2;
+
+      .Icon {
+        width: 2rem;
+        height: 2rem;
+      }
+    }
+  }
+
+  &-info {
+    padding: 1.2rem 0 0;
+
+    &-title {
+      @include ellipsis(1);
+      font-size: 1.8rem;
+      color: $shark;
+      font-weight: 600;
+    }
+
+    &-description {
+      font-size: 1.4rem;
+      color: $pale-sky;
+      height: 4.4rem;
+      @include ellipsis(2);
+      margin-bottom: 1.2rem;
+    }
+
+    &-teacher {
+      column-gap: 0.8rem;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: $pale-sky;
+    }
+
+    &-detail {
+      padding: 1.2rem 0;
+      margin: 1.6rem 0;
+      border-top: 1px solid $geyser;
+      border-bottom: 1px solid $geyser;
+
+      &-item {
+        font-size: 1.4rem;
+        column-gap: 0.4rem;
+        color: $shark;
+        font-weight: 500;
+
+        .Icon {
+          width: 2rem;
+          height: 2rem;
+        }
+      }
+    }
+  }
+
+  &-price {
+    height: 6rem;
+    white-space: nowrap;
+
+    &-selling span,
+    &-retail {
+      font-size: 1.4rem;
+      color: $pale-sky;
+    }
+
+    &-retail {
+      text-decoration: line-through;
+      margin-bottom: 0.4rem;
+    }
+
+    &-selling {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: $shark;
+    }
+  }
+
+  &-register {
+    padding-top: 1.6rem;
+  }
+}

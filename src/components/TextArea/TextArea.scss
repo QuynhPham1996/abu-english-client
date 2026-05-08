@@ -1,0 +1,64 @@
+@import '@/assets/styles/_global.scss';
+
+.TextArea {
+  &.editable {
+    .ant-input {
+      padding: 0;
+      border: none;
+    }
+  }
+
+  &.auto-size {
+    .ant-input {
+      min-height: unset;
+    }
+  }
+
+  .ant-input-textarea {
+    width: 100%;
+  }
+
+  .ant-input-textarea-show-count::after {
+    font-size: 1.2rem;
+    margin-bottom: -2.4rem;
+    margin-top: .2rem;
+    color: $pale-sky;
+    letter-spacing: -0.01rem;
+  }
+
+  .ant-input {
+    min-height: 12rem;
+    padding: .8rem 1.2rem;
+    background: $white;
+    border-radius: .4rem;
+    border: 1px solid $geyser;
+    box-shadow: none;
+    width: 100%;
+    font-size: 1.4rem;
+    color: $shark;
+
+    :hover {
+      border-color: $geyser;
+    }
+
+    &::placeholder {
+      color: $pale-sky;
+    }
+  }
+
+  &-prefix {
+    margin-right: 1.2rem;
+  }
+
+  &-suffix {
+    margin-left: 1.2rem;
+  }
+
+  &-suffix,
+  &-prefix {
+    .Icon {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+  }
+}

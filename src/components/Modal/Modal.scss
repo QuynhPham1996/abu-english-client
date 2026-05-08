@@ -1,0 +1,54 @@
+@import '@/assets/styles/_global.scss';
+
+.Modal {
+  .ant-modal-content {
+    box-shadow: none;
+    background: transparent;
+  }
+
+  &-header {
+    text-align: center;
+
+    &-title {
+      font-size: 1.6rem;
+      color: $shark;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+    }
+
+    &-subtitle {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: $shark;
+    }
+
+    &-description {
+      font-size: 1.2rem;
+      color: $pale-sky;
+
+      strong {
+        font-weight: 600;
+      }
+    }
+  }
+
+  &-body {
+    position: relative;
+    border-radius: 1.2rem;
+    background: $white;
+    box-shadow: $box-shadow-1;
+    padding: 2.4rem;
+    overflow: hidden;
+  }
+
+  &-actions {
+    column-gap: .8rem;
+    margin-top: 2.4rem;
+
+    .Button {
+      .ant-btn {
+        width: 9rem;
+      }
+    }
+  }
+}

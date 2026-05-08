@@ -1,0 +1,20 @@
+import ApiService from '@/services/api';
+
+// TYPES
+
+export type TCreateUserParams = unknown;
+export type TCreateUserBody = unknown;
+
+export type TCreateUserMaterials = {
+  params?: TCreateUserParams;
+  body?: TCreateUserBody;
+};
+
+export type TCreateUserResponse = unknown;
+
+// FUNCTION
+
+export const createUser = async ({ params, body }: TCreateUserMaterials): Promise<TCreateUserResponse> => {
+  const response = await ApiService.post(`/users`, body, { params });
+  return response?.data;
+};

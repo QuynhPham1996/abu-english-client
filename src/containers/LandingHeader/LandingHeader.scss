@@ -1,0 +1,112 @@
+@import '@/assets/styles/_global.scss';
+
+.LandingHeader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.6rem 0;
+  background: $white;
+  z-index: 10;
+  box-shadow: $box-shadow-1;
+
+  &-logo {
+    width: 11rem;
+    height: 4.8rem;
+    @include centerOriginImage;
+
+    img {
+      position: static !important;
+      transform: scale(1.2) translateY(-8%);
+    }
+  }
+
+  &-actions {
+    column-gap: 1.2rem;
+
+    .Button {
+      .ant-btn {
+        padding: .4rem 1.6rem;
+      }
+    }
+  }
+
+  &-list {
+    flex: 1;
+    padding: 0 7.2rem;
+    column-gap: 6.4rem;
+
+    &-item {
+      padding: 1.2rem;
+
+      a {
+        display: block;
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: $geraldine;
+
+        &:hover {
+          color: lighten($geraldine, 10%);
+        }
+      }
+    }
+  }
+
+  &-menu-mobile {
+    .ant-drawer-mask {
+      backdrop-filter: blur(2px);
+    }
+
+    .ant-drawer-body,
+    .ant-drawer-header {
+      padding: 2.4rem;
+    }
+
+    .ant-drawer-header {
+      border-color: $geyser;
+    }
+
+    .ant-drawer-header-title {
+      flex-direction: row-reverse;
+
+      .ant-drawer-title {
+        color: $shark;
+        font-size: 2.8rem;
+        font-weight: 600;
+      }
+    }
+
+    .ant-drawer-body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ant-drawer-close {
+      padding: 0;
+      margin: 0;
+    }
+
+    .LandingHeader-actions,
+    .LandingHeader-list {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .LandingHeader-list {
+      padding: 0;
+      margin-bottom: 1.2rem;
+
+      &-item {
+        width: 100%;
+      }
+    }
+
+    .LandingHeader-actions {
+      row-gap: 1.2rem;
+
+      .Button {
+        width: 100%;
+      }
+    }
+  }
+}

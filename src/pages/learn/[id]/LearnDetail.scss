@@ -1,0 +1,134 @@
+@import '@/assets/styles/_global.scss';
+
+.LearnDetail {
+  &-loading {
+    min-height: calc(100vh - 6.5rem - 2.4rem * 2);
+  }
+
+  .VideoCourse {
+    position: sticky;
+    top: calc(6.5rem + 2.4rem);
+    height: calc(100vh - 6.5rem - 2.4rem * 2);
+
+    @media (max-width: 991px) {
+      position: static;
+      height: 50vh;
+    }
+
+    .plyr--video {
+      height: 100%;
+    }
+  }
+
+  &-back {
+    font-weight: 700;
+    font-size: 1.4rem;
+    column-gap: .4rem;
+    cursor: pointer;
+    color: $geraldine;
+    margin-bottom: 0.4rem;
+
+    &:hover {
+      color: $geraldine;
+      text-decoration: underline;
+    }
+
+    .Icon {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+  }
+
+  &-title {
+    font-size: 2.4rem;
+    color: $shark;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+
+  &-description {
+    font-size: 1.4rem;
+    color: $pale-sky;
+
+    strong {
+      color: $shark;
+      font-weight: 500;
+    }
+  }
+
+  &-list {
+    &-item {
+      column-gap: .4rem;
+
+      .Icon {
+        width: 2.4rem;
+        height: 2.4rem;
+      }
+    }
+  }
+
+  &-line {
+    position: relative;
+    height: 1px;
+    background: $geyser;
+    width: 100%;
+    white-space: nowrap;
+    margin: 3.2rem auto;
+
+    span {
+      @include centerAbsolute;
+      padding: 0.4rem 0.8rem;
+      font-size: 1.4rem;
+      color: $shark;
+
+      strong {
+        position: relative;
+        z-index: 2;
+      }
+
+      &::before {
+        width: 100%;
+        content: '';
+        height: 1px;
+        background: $white;
+        @include centerAbsolute;
+      }
+    }
+  }
+
+  &-btns {
+    margin-top: 3.2rem;
+  }
+
+  &-exercises {
+    .ExerciseCard {
+      &-wrapper {
+        padding: 1.6rem;
+        column-gap: 1.6rem;
+      }
+
+      &-circle {
+        flex: 0 0 7.2rem;
+        max-width: 7.2rem;
+        height: 7.2rem;
+        width: 7.2rem;
+
+        &-lock {
+          .Icon {
+            width: 3.2rem;
+            height: 3.2rem;
+          }
+        }
+      }
+
+      .ant-progress-inner {
+        width: 6.4rem !important;
+        height: 6.4rem !important;
+      }
+
+      .ant-progress-text {
+        font-size: 3.2rem;
+      }
+    }
+  }
+}

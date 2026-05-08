@@ -1,0 +1,32 @@
+@import '@/assets/styles/_global.scss';
+
+.Carousels {
+  .slick-prev {
+    left: -1.2rem;
+  }
+
+  .slick-next {
+    right: -1.2rem;
+  }
+
+  .slick-arrow {
+    width: unset;
+    height: unset;
+    z-index: 3;
+    transition: $common-transition;
+
+    &::before {
+      display: none;
+    }
+
+    &.slick-disabled {
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .ant-btn {
+      border-radius: 50%;
+      border: 1px solid rgba($fiord, 0.3);
+    }
+  }
+}

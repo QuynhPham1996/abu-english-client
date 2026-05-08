@@ -1,0 +1,51 @@
+@import '@/assets/styles/_global.scss';
+
+.Tabs {
+
+  .ant-tabs-top>.ant-tabs-nav::before,
+  .ant-tabs-bottom>.ant-tabs-nav::before,
+  .ant-tabs-top>div>.ant-tabs-nav::before,
+  .ant-tabs-bottom>div>.ant-tabs-nav::before {
+    border-color: $geyser;
+  }
+
+  .ant-tabs-top>.ant-tabs-nav,
+  .ant-tabs-bottom>.ant-tabs-nav,
+  .ant-tabs-top>div>.ant-tabs-nav,
+  .ant-tabs-bottom>div>.ant-tabs-nav {
+    margin-bottom: 2.4rem;
+  }
+
+  .ant-tabs {
+    overflow: unset;
+
+    .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+      color: $geraldine;
+    }
+
+    .ant-tabs-tab+.ant-tabs-tab {
+      margin: 0 0 0 2.4rem;
+    }
+
+    .ant-tabs-ink-bar {
+      background: $geraldine;
+    }
+
+    .ant-tabs-tab {
+      font-size: 1.6rem;
+      padding: 1.2rem 0;
+
+      &:active,
+      &:hover {
+        color: $geraldine;
+      }
+    }
+
+    .ant-tabs-content-holder {
+      padding: 2.4rem;
+      border-radius: 2.4rem;
+      background: $white;
+      box-shadow: $box-shadow-3;
+    }
+  }
+}

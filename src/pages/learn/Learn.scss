@@ -1,0 +1,108 @@
+@import '@/assets/styles/_global.scss';
+
+.Learn {
+  max-width: 70rem;
+  margin: auto;
+
+  &-loading {
+    min-height: calc(100vh - 6.5rem - 2.4rem * 2);
+  }
+
+  &-wrapper {
+    .ant-collapse {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+
+      .ant-collapse-arrow {
+        width: 3.2rem;
+        height: 3.2rem;
+        right: 0 !important;
+        margin-top: -1.2rem !important;
+        transition: $common-transition;
+      }
+
+      &>.ant-collapse-item {
+        border-bottom: none;
+
+        &:not(:last-child) {
+          border-bottom: .3rem dashed $geyser;
+          padding-bottom: 4.8rem;
+          margin-bottom: 4.8rem;
+        }
+
+        &>.ant-collapse-header {
+          padding: 0;
+        }
+      }
+
+      .ant-collapse-content {
+        border-top: none;
+        background: transparent;
+
+        &>.ant-collapse-content-box {
+          padding: 4.8rem 0 0;
+        }
+      }
+    }
+
+    .ant-collapse-item-active {
+      .ant-collapse-arrow {
+        transform: translateY(-50%) rotate(180deg) !important;
+      }
+    }
+  }
+
+  &-courses {
+    &-header {
+      width: 100%;
+
+      &-title {
+        font-size: 2.4rem;
+        font-weight: 700;
+        color: $shark;
+        margin-bottom: .4rem;
+        padding-right: 3.2rem;
+        @include ellipsis(1);
+      }
+
+      &-description {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: $pale-sky;
+        margin-bottom: 1.6rem;
+        padding-right: 3.2rem;
+        @include ellipsis(1);
+      }
+
+      &-progress {
+        position: relative;
+        height: 1.2rem;
+        background: $mystic;
+        border-radius: 1.2rem;
+
+        &-line {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          background-color: $mountain-meadow;
+          border-radius: 1.2rem;
+        }
+
+        &-badge {
+          position: absolute;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          background: $mountain-meadow;
+          box-shadow: $box-shadow-1;
+          border: 1px solid $geyser;
+          padding: .2rem .8rem;
+          font-size: 1.2rem;
+          border-radius: 1.2rem;
+          color: $white;
+        }
+      }
+    }
+  }
+}

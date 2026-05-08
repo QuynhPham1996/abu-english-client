@@ -1,0 +1,196 @@
+@import '@/assets/styles/_global.scss';
+
+.DoExerciseMain {
+
+  &-title,
+  &-subtitle {
+    font-weight: 700;
+    color: $shark;
+  }
+
+  &-title {
+    font-size: 2.4rem;
+    margin-bottom: 2.4rem;
+  }
+
+  &-subtitle {
+    font-size: 1.4rem;
+    margin-bottom: 1.2rem;
+  }
+
+  &-header {
+    margin-bottom: 2.4rem;
+
+    @media (max-width: 575px) {
+      row-gap: 2.4rem;
+      flex-direction: column;
+      align-items: flex-start !important;
+      justify-content: flex-start !important;
+    }
+
+    &-item {
+      @media (max-width: 575px) {
+        width: 100%;
+      }
+    }
+
+    &-info {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: $shark;
+      column-gap: 1.2rem;
+
+      span {
+        flex: 0 0 4rem;
+        max-width: 4rem;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 0.4rem;
+      }
+
+      .ant-progress-line {
+        flex: 0 0 24rem;
+        max-width: 24rem;
+
+        @media (max-width: 575px) {
+          flex: 1;
+          max-width: 100%;
+        }
+
+        .ant-progress-inner {
+          border: 1px solid $geyser;
+        }
+      }
+
+      .Icon {
+        flex: 0 0 2rem;
+        max-width: 2rem;
+        width: 2rem;
+        height: 2rem;
+      }
+    }
+
+    .Button {
+      min-width: 10rem;
+    }
+  }
+
+  &-actions {
+    margin-top: 2.4rem;
+
+    .Button {
+      min-width: 10rem;
+    }
+  }
+
+  &-questions {
+    &-item {
+      height: 3.6rem;
+      border: 1px solid $geyser;
+      border-radius: 0.8rem;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: $shark;
+      cursor: pointer;
+      transition: $common-transition;
+
+      &:hover {
+        background: rgba($pale-sky, 0.05);
+      }
+
+      &.error {
+        background: $alizarin-crimson;
+        border-color: $alizarin-crimson;
+        color: $white;
+
+        &:hover {
+          background: lighten($alizarin-crimson, 5%);
+        }
+      }
+
+      &.success {
+        background: $mountain-meadow;
+        border-color: $mountain-meadow;
+        color: $white;
+
+        &.active {
+          background: $mountain-meadow;
+          border-color: darken($mountain-meadow, 10%);
+
+          &:hover {
+            background: lighten($mountain-meadow, 5%);
+          }
+        }
+
+        &:hover {
+          background: lighten($mountain-meadow, 5%);
+        }
+      }
+
+      &.active {
+        background: lighten($pale-sky, 50%);
+
+        &:hover {
+          background: lighten($pale-sky, 45%);
+        }
+      }
+    }
+  }
+
+  &-tooltips {
+    margin-top: 2.4rem;
+
+    &-item {
+      column-gap: 0.8rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: $shark;
+
+      &:not(:last-child) {
+        margin-bottom: 0.4rem;
+      }
+
+      &.active {
+        .DoExerciseMain-tooltips-item {
+          &-circle {
+            background: lighten($pale-sky, 50%);
+          }
+        }
+      }
+
+      &.error {
+        .DoExerciseMain-tooltips-item {
+          &-circle {
+            background: $alizarin-crimson;
+            border-color: $alizarin-crimson;
+          }
+        }
+      }
+
+      &.success {
+        .DoExerciseMain-tooltips-item {
+          &-circle {
+            background: $mountain-meadow;
+            border-color: $mountain-meadow;
+          }
+        }
+      }
+
+      &-circle {
+        flex: 0 0 0.8rem;
+        max-width: 0.8rem;
+        height: 0.8rem;
+        width: 0.8rem;
+        border-radius: 50%;
+        border: 1px solid $geyser;
+        background: $white;
+        margin-bottom: 0.1rem;
+      }
+    }
+  }
+
+  .HelpBadge {
+    margin: 2.4rem 0;
+  }
+}

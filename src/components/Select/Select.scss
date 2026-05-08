@@ -1,0 +1,116 @@
+@import '@/assets/styles/_global.scss';
+
+.Select {
+
+  &.readonly-text {
+    margin-top: -1.2rem;
+
+    * {
+      pointer-events: none;
+    }
+
+    .ant-select {
+      &:not(.ant-select-customize-input) .ant-select-selector {
+        padding-left: 0;
+        padding-right: 0;
+        border: none;
+      }
+    }
+  }
+
+  .ant-select-single.ant-select-show-arrow .ant-select-selection-item,
+  .ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder {
+    padding-right: 2.4rem;
+    line-height: 1.8 !important;
+  }
+
+  .ant-select-clear {
+    margin-top: 0;
+    width: unset;
+    height: unset;
+    right: 1rem;
+    transform: translateY(-50%);
+
+    .Icon {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+
+  .ant-select {
+    width: 100%;
+    min-width: 12rem;
+
+    &:not(.ant-select-customize-input) .ant-select-selector {
+      height: 4.2rem;
+      padding: .8rem 1.2rem;
+      background: $white;
+      border-radius: .4rem;
+      border: 1px solid $geyser;
+      box-shadow: none;
+      width: 100%;
+      font-size: 1.4rem;
+      color: $shark;
+
+      .ant-select-selection-search-input {
+        height: 100%;
+      }
+    }
+
+    &.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+      border-color: $geyser;
+      box-shadow: none;
+    }
+
+    .ant-select-arrow {
+      height: unset;
+      right: 0.8rem;
+      margin: 0;
+      transform: translateY(-50%);
+
+      .Icon {
+        width: 2.4rem;
+        height: 2.4rem;
+      }
+    }
+
+    &-selection-placeholder {
+      color: $pale-sky;
+    }
+  }
+
+  &-dropdown {
+    border-radius: .4rem;
+    overflow: hidden;
+    background: $white;
+    box-shadow: $box-shadow-1;
+    border: 1px solid $geyser;
+    width: unset !important;
+
+    &-loading {
+      @include fullAbsolute;
+      z-index: 3;
+      background: rgba($white, 0.2);
+      backdrop-filter: blur(2px);
+    }
+
+    .ant-select-item {
+      height: 4rem;
+      padding: 1rem 1.6rem;
+      transition: $common-transition;
+      cursor: pointer;
+
+      &:not(:last-child) {
+        margin-bottom: 0.2rem;
+      }
+    }
+
+    .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+      background: rgba($geraldine, 0.1);
+    }
+
+    .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+      background: rgba($pale-sky, 0.05);
+    }
+  }
+}

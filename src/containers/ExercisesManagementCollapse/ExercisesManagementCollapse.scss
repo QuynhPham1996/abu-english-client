@@ -1,0 +1,59 @@
+@import '@/assets/styles/_global.scss';
+
+.ExercisesManagementCollapse {
+  .ant-collapse {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+
+    .ant-collapse-arrow {
+      width: 3.2rem;
+      height: 3.2rem;
+      right: 0 !important;
+      top: 72.5% !important;
+      transition: $common-transition;
+    }
+
+    &>.ant-collapse-item {
+      &>.ant-collapse-header {
+        padding: 0;
+      }
+    }
+
+    .ant-collapse-content {
+      border-top: none;
+      background: transparent;
+
+      &>.ant-collapse-content-box {
+        padding: 2.4rem 0 0;
+      }
+    }
+  }
+
+  .ant-collapse-item-active {
+    .ant-collapse-arrow {
+      transform: translateY(-50%) rotate(180deg) !important;
+    }
+  }
+
+  &-item {
+    padding: 1.6rem;
+    border-radius: 1.2rem !important;
+    border: 1px solid $geyser;
+
+    &:not(:last-child) {
+      margin-bottom: 1.6rem;
+    }
+  }
+
+  &-header {
+    flex: 1;
+    padding-right: 4.2rem;
+
+    &-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: $shark;
+    }
+  }
+}
