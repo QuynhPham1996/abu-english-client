@@ -114,7 +114,7 @@ const ModalCourseForm: React.FC<TModalCourseFormProps> = ({ visible, data, onClo
       visible={visible}
       onClose={onClose}
       onSubmit={handleSubmit}
-      width={480}
+      width={720}
       showActions
       loading={loading}
     >
@@ -130,22 +130,22 @@ const ModalCourseForm: React.FC<TModalCourseFormProps> = ({ visible, data, onClo
                 <UploadImage />
               </Form.Item>
             </Col>
-            <Col span={24}>
+            <Col xs={24} md={12}>
               <Form.Item label="Tên khoá học" name="name" required rules={[validationRules.required()]}>
                 <Input />
               </Form.Item>
             </Col>
-            <Col span={24}>
-              <Form.Item label="Mô tả" name="description">
-                <TextArea />
+            <Col xs={24} md={12}>
+              <Form.Item label="Giảng viên" name="manager" required rules={[validationRules.required()]}>
+                <Select options={usersOptions} onSearch={handleSearchUsers} onLoadMore={handleLoadMoreUsers} />
               </Form.Item>
             </Col>
-            <Col span={24}>
+            <Col xs={24} md={12}>
               <Form.Item label="Giá niêm yết" name="retailPrice" rules={[validationRules.min(10000)]}>
                 <Input suffix="đ" numberic useNumber numberWithSeperator />
               </Form.Item>
             </Col>
-            <Col span={24}>
+            <Col xs={24} md={12}>
               <Form.Item
                 label="Giá bán"
                 name="sellingPrice"
@@ -155,12 +155,7 @@ const ModalCourseForm: React.FC<TModalCourseFormProps> = ({ visible, data, onClo
                 <Input suffix="đ" numberic useNumber numberWithSeperator />
               </Form.Item>
             </Col>
-            <Col span={24}>
-              <Form.Item label="Giảng viên" name="manager" required rules={[validationRules.required()]}>
-                <Select options={usersOptions} onSearch={handleSearchUsers} onLoadMore={handleLoadMoreUsers} />
-              </Form.Item>
-            </Col>
-            <Col span={24}>
+            <Col xs={24} md={12}>
               <Form.Item
                 label="Cấp độ"
                 name="level"
@@ -170,7 +165,7 @@ const ModalCourseForm: React.FC<TModalCourseFormProps> = ({ visible, data, onClo
                 <Select options={dataCourseLevelOptions} />
               </Form.Item>
             </Col>
-            <Col span={24}>
+            <Col xs={24} md={12}>
               <Form.Item
                 label="Trạng thái"
                 name="status"
@@ -178,6 +173,11 @@ const ModalCourseForm: React.FC<TModalCourseFormProps> = ({ visible, data, onClo
                 initialValue={dataCourseStatusOptions.find((option) => option.value === ECourseStatus.PUBLIC)}
               >
                 <Select options={dataCourseStatusOptions} />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item label="Mô tả" name="description">
+                <TextArea />
               </Form.Item>
             </Col>
             {[ECourseStatus.COMING_SOON, ECourseStatus.PRIVATE].includes(formValues?.status?.value) && (

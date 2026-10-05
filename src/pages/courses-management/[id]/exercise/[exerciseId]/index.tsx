@@ -18,6 +18,9 @@ import { useModalState, useWarnIfUnsavedChanges } from '@/utils/hooks';
 import ModalQuestionForm from '@/containers/ModalQuestionForm';
 import ModalGroupQuestionForm from '@/containers/ModalGroupQuestionForm';
 import ModalDeleteGroupQuestion from '@/containers/ModalDeleteGroupQuestion';
+import ModalPickAssignments from '@/containers/ModalPickAssignments';
+import ModalPickBankQuestions from '@/containers/ModalPickBankQuestions';
+import ModalPickQuestionGroup from '@/containers/ModalPickQuestionGroup';
 import {
   EGetExerciseAction,
   EGetLessonsFromExerciseAction,
@@ -66,6 +69,9 @@ const CourseDetailExerciseManagement = () => {
     useModalState();
   const [groupQuestionFormModalState, handleOpenGroupQuestionFormModal, handleCloseGroupQuestionFormModal] =
     useModalState();
+  const [pickAssignmentsModalState, handleOpenPickAssignmentsModal, handleClosePickAssignmentsModal] = useModalState();
+  const [pickBankModalState, handleOpenPickBankModal, handleClosePickBankModal] = useModalState();
+  const [pickGroupModalState, handleOpenPickGroupModal, handleClosePickGroupModal] = useModalState();
   const [deleteExerciseModalState, handleOpenDeleteExerciseModal, handleCloseDeleteExerciseModal] = useModalState();
   const [exerciseFormModalState, handleOpenExerciseFormModal, handleCloseExerciseFormModal] = useModalState();
   const [uploadExerciseVideoModalState, handleOpenUploadExerciseVideoModal, handleCloseUploadExerciseVideoModal] =
@@ -186,13 +192,26 @@ const CourseDetailExerciseManagement = () => {
                           </div>
                         </div>
                         <div className="CourseDetailExerciseManagement-exercises-header-item">
-                          <Button
-                            title="Thêm bài tập"
-                            styleType={EButtonStyleType.PRIMARY}
-                            iconName={EIconName.Plus}
-                            iconColor={EIconColor.WHITE}
-                            onClick={handleOpenGroupQuestionFormModal}
-                          />
+                          <Row gutter={[8, 8]}>
+                            <Col>
+                              <Button
+                                title="Tạo bài tập"
+                                styleType={EButtonStyleType.OUTLINE_GEYSER}
+                                iconName={EIconName.Plus}
+                                iconColor={EIconColor.SHARK}
+                                onClick={handleOpenGroupQuestionFormModal}
+                              />
+                            </Col>
+                            <Col>
+                              <Button
+                                title="Chọn từ thư viện"
+                                styleType={EButtonStyleType.PRIMARY}
+                                iconName={EIconName.ClipboardText}
+                                iconColor={EIconColor.WHITE}
+                                onClick={handleOpenPickAssignmentsModal}
+                              />
+                            </Col>
+                          </Row>
                         </div>
                       </div>
 
@@ -210,8 +229,14 @@ const CourseDetailExerciseManagement = () => {
                             onGroupItemEdit={handleOpenGroupQuestionFormModal}
                             onGroupItemDelete={handleOpenDeleteGroupQuestionModal}
                             onItemDelete={handleOpenDeleteQuestionModal}
-                            onItemCreate={handleOpenQuestionFormModal}
                             onItemEdit={handleOpenQuestionFormModal}
+                            onItemCreate={handleOpenQuestionFormModal}
+                            onPickBankQuestions={handleOpenPickBankModal}
+                            onPickQuestionGroup={handleOpenPickGroupModal}
+                            onPreview={(lesson): void => {
+                              if (!lesson?.id) return;
+                              window.open(Paths.LessonPreview(courseId, id, lesson.id), '_blank', 'noopener,noreferrer');
+                            }}
                           />
                         )}
                       </div>
@@ -290,6 +315,27 @@ const CourseDetailExerciseManagement = () => {
         </div>
       </div>
 
+      <ModalPickBankQuestions
+        visible={pickBankModalState.visible}
+        lesson={pickBankModalState.data}
+        onClose={handleClosePickBankModal}
+        onSuccess={getLessons}
+      />
+      <ModalPickQuestionGroup
+        visible={pickGroupModalState.visible}
+        lesson={pickGroupModalState.data}
+        onClose={handleClosePickGroupModal}
+        onSuccess={getLessons}
+      />
+      <ModalPickAssignments
+        {...pickAssignmentsModalState}
+        exerciseId={id}
+        attachedSourceIds={(lessonState || [])
+          .map((item) => item.sourceAssignment)
+          .filter((item): item is string => Boolean(item))}
+        onClose={handleClosePickAssignmentsModal}
+        onSuccess={getLessons}
+      />
       <ModalQuestionForm {...questionFormModalState} onClose={handleCloseQuestionFormModal} onSuccess={getLessons} />
       <ModalGroupQuestionForm
         {...groupQuestionFormModalState}

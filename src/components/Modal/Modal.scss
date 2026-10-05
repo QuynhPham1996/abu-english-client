@@ -47,7 +47,10 @@
 
     .Button {
       .ant-btn {
-        width: 9rem;
+        width: auto;
+        min-width: 9rem;
+        padding: 0.4rem 2rem;
+        white-space: nowrap;
       }
     }
   }

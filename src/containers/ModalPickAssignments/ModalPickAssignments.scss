@@ -1,0 +1,31 @@
+@import '@/assets/styles/_global.scss';
+
+.QuestionPickerList {
+  max-height: 42rem;
+  overflow: auto;
+
+  &-item {
+    padding: 1.2rem 0;
+    border-bottom: 1px solid $geyser;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    .ant-checkbox-wrapper {
+      width: 100%;
+      align-items: flex-start;
+    }
+  }
+
+  &-title {
+    font-size: 1.4rem;
+    color: $shark;
+  }
+
+  &-meta {
+    font-size: 1.2rem;
+    color: $pale-sky;
+    margin-top: 0.2rem;
+  }
+}

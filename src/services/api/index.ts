@@ -13,3 +13,6 @@ export * from './lesson';
 export * from './question';
 export * from './test';
 export * from './public';
+export * from './question-group';
+export * from './question-bank';
+export * from './assignment';

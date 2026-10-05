@@ -16,6 +16,8 @@ const ExerciseCard: React.FC<TExerciseCardProps> = ({
   name,
   description,
   percent = 0,
+  expanded = true,
+  onToggle,
   onClick,
 }) => {
   const completed = percent === 100;
@@ -26,6 +28,7 @@ const ExerciseCard: React.FC<TExerciseCardProps> = ({
         disabled: locked,
         completed,
         active,
+        'has-toggle': !!onToggle,
       })}
       onClick={onClick}
     >
@@ -57,6 +60,18 @@ const ExerciseCard: React.FC<TExerciseCardProps> = ({
             </h3>
             <p className="ExerciseCard-info-description ellipsis-2">{description}</p>
           </div>
+          {onToggle && (
+            <button
+              type="button"
+              className={classNames('ExerciseCard-toggle', { collapsed: !expanded })}
+              onClick={(event): void => {
+                event.stopPropagation();
+                onToggle();
+              }}
+            >
+              <Icon name={EIconName.AngleDown} color={EIconColor.SHARK} />
+            </button>
+          )}
         </div>
       </Tooltip>
     </div>

@@ -101,6 +101,10 @@
   }
 
   &-exercises {
+    .TableContentExercise-lessons {
+      margin-left: 3.2rem;
+    }
+
     .ExerciseCard {
       &-wrapper {
         padding: 1.6rem;

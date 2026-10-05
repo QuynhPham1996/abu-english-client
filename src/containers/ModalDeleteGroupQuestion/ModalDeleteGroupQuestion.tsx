@@ -41,7 +41,7 @@ const ModalDeleteGroupQuestion: React.FC<TModalDeleteGroupQuestionProps> = ({ vi
           <br />
           <br />
           Dữ liệu đã xoá sẽ <strong>không thể khôi phục.</strong> Toàn bộ câu hỏi trong bài tập này{' '}
-          <strong>sẽ bị mất.</strong>
+          <strong>sẽ bị mất.</strong> Bài tập đã có bài nộp của học viên <strong>không thể gỡ.</strong>
         </>
       }
     />

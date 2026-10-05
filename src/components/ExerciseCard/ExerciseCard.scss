@@ -18,7 +18,9 @@
 
   &:not(:last-child) {
     margin-bottom: 1.2rem;
+  }
 
+  &:has(+ .ExerciseCard) {
     .ExerciseCard-circle {
       &::before {
         position: absolute;
@@ -148,6 +150,37 @@
       font-weight: 700;
       font-size: 4.2rem;
       color: $white !important;
+    }
+  }
+
+  &.has-toggle {
+    .ExerciseCard-info {
+      flex: 1;
+    }
+  }
+
+  &-toggle {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    margin-left: 0.8rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+
+    .Icon {
+      width: 2.4rem;
+      height: 2.4rem;
+      transition: $common-transition;
+    }
+
+    &.collapsed .Icon {
+      transform: rotate(-90deg);
     }
   }
 

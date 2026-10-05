@@ -1,0 +1,11 @@
+@import '@/assets/styles/_global.scss';
+
+.AssignmentsManagement {
+  &-table {
+    padding: 3.2rem 2.4rem;
+    border-radius: 2.4rem;
+    background: $white;
+    box-shadow: $box-shadow-3;
+    min-height: calc(100vh - 6.5rem - 4.8rem);
+  }
+}

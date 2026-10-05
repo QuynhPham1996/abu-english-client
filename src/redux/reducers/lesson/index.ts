@@ -1,6 +1,8 @@
 import { createReducer } from 'deox';
 
 import {
+  TAddLessonGroupResponse,
+  TAddLessonQuestionsResponse,
   TCreateLessonResponse,
   TDeleteLessonsResponse,
   TGetLessonsFromExerciseResponse,
@@ -8,12 +10,16 @@ import {
   TUpdateLessonResponse,
 } from '@/services/api/lesson';
 import {
+  addLessonGroupAction,
+  addLessonQuestionsAction,
   createLessonAction,
   deleteLessonsAction,
   getLessonsFromExerciseAction,
   updateLessonQuestionsIndexAction,
   updateLessonAction,
 } from '@/redux/actions';
+import { addLessonGroupUpdateState } from './add-lesson-group';
+import { addLessonQuestionsUpdateState } from './add-lesson-questions';
 import { createLessonUpdateState } from './create-lesson';
 import { deleteLessonsUpdateState } from './delete-lessons';
 import { getLessonsFromExerciseUpdateState } from './get-lessons-from-exercise';
@@ -21,6 +27,8 @@ import { updateLessonQuestionsIndexUpdateState } from './update-lesson-questions
 import { updateLessonUpdateState } from './update-lesson';
 
 export type TLessonState = {
+  addLessonGroupResponse?: TAddLessonGroupResponse;
+  addLessonQuestionsResponse?: TAddLessonQuestionsResponse;
   createLessonResponse?: TCreateLessonResponse;
   deleteLessonsResponse?: TDeleteLessonsResponse;
   getLessonsFromExerciseResponse?: TGetLessonsFromExerciseResponse;
@@ -29,6 +37,8 @@ export type TLessonState = {
 };
 
 const initialState: TLessonState = {
+  addLessonGroupResponse: undefined,
+  addLessonQuestionsResponse: undefined,
   createLessonResponse: undefined,
   deleteLessonsResponse: undefined,
   getLessonsFromExerciseResponse: undefined,
@@ -37,6 +47,8 @@ const initialState: TLessonState = {
 };
 
 const LessonReducer = createReducer(initialState, (handleAction) => [
+  handleAction(addLessonGroupAction.success, addLessonGroupUpdateState),
+  handleAction(addLessonQuestionsAction.success, addLessonQuestionsUpdateState),
   handleAction(createLessonAction.success, createLessonUpdateState),
   handleAction(deleteLessonsAction.success, deleteLessonsUpdateState),
   handleAction(getLessonsFromExerciseAction.success, getLessonsFromExerciseUpdateState),

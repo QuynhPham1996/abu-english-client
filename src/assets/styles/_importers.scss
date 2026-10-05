@@ -16,6 +16,7 @@
 @import '@/components/Select/Select.scss';
 @import '@/components/SelectMultiple/SelectMultiple.scss';
 @import '@/components/ExerciseCard/ExerciseCard.scss';
+@import '@/containers/TableContentExercise/TableContentExercise.scss';
 @import '@/components/VideoCourse/VideoCourse.scss';
 @import '@/components/AnswerRadio/AnswerRadio.scss';
 @import '@/components/Tabs/Tabs.scss';
@@ -38,6 +39,7 @@
 @import '@/containers/ExercisesManagementCollapse/QuestionsSortable/QuestionsSortable.scss';
 @import '@/containers/ModalUploadExerciseVideo/ModalUploadExerciseVideo.scss';
 @import '@/containers/DoExerciseMain/DoExerciseMain.scss';
+@import '@/containers/LessonPreview/LessonPreview.scss';
 @import '@/containers/ViewExerciseMain/ViewExerciseMain.scss';
 @import '@/containers/LandingHeader/LandingHeader.scss';
 @import '@/containers/LandingFooter/LandingFooter.scss';
@@ -66,5 +68,11 @@
 @import '@/pages/courses-management/[id]/CourseDetailManagement.scss';
 @import '@/pages/courses-management/[id]/exercise/[exerciseId]/CourseDetailExerciseManagement.scss';
 @import '@/pages/exercises-management/ExercisesManagement.scss';
+@import '@/pages/question-groups-management/QuestionGroupsManagement.scss';
+@import '@/pages/question-groups-management/[id]/QuestionGroupDetailManagement.scss';
+@import '@/pages/questions-bank-management/QuestionsBankManagement.scss';
+@import '@/pages/assignments-management/AssignmentsManagement.scss';
+@import '@/pages/assignments-management/[id]/AssignmentDetailManagement.scss';
 @import '@/pages/privacy-policy/PrivacyPolicy.scss';
 @import '@/pages/terms-of-service/TermsOfService.scss';
+@import '@/containers/ModalPickAssignments/ModalPickAssignments.scss';

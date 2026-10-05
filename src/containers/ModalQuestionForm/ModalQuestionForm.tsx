@@ -14,12 +14,20 @@ import {
   createQuestionAction,
   updateQuestionAction,
 } from '@/redux/actions';
+import { dataLessonTypeOptions } from '@/common/constants';
 import { ELessonType, ETypeNotification } from '@/common/enums';
 
 import { TModalQuestionFormProps } from './ModalQuestionForm.types';
 import TextArea from '@/components/TextArea';
 
-const ModalQuestionForm: React.FC<TModalQuestionFormProps> = ({ visible, data, dataLesson, onClose, onSuccess }) => {
+const ModalQuestionForm: React.FC<TModalQuestionFormProps> = ({
+  visible,
+  data,
+  dataLesson,
+  dataAssignment,
+  onClose,
+  onSuccess,
+}) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [formValues, setFormValues] = useState<any>({});
@@ -32,20 +40,36 @@ const ModalQuestionForm: React.FC<TModalQuestionFormProps> = ({ visible, data, d
   );
 
   const loading = createQuestionLoading || updateQuestionLoading;
+  const questionType = dataLesson?.type || dataAssignment?.type;
+  const typeLabel = dataLessonTypeOptions.find((option) => option.value === questionType)?.label;
 
   const handleSubmit = (): void => {
     form.validateFields().then((values) => {
-      const body = {
-        question: values?.question,
-        answers: values?.answers,
-        lesson: !data ? dataLesson?.id : undefined,
-        note: values?.note,
-      };
+      const answers = questionType === ELessonType.MULTIPLE_CHOICE ? values?.answers : undefined;
 
       if (data) {
-        dispatch(updateQuestionAction.request({ paths: { id: data?.id }, body }, handleSubmitSuccess));
+        dispatch(
+          updateQuestionAction.request(
+            { paths: { id: data?.id }, body: { question: values?.question, answers, note: values?.note } },
+            handleSubmitSuccess,
+          ),
+        );
       } else {
-        dispatch(createQuestionAction.request({ body }, handleSubmitSuccess));
+        dispatch(
+          createQuestionAction.request(
+            {
+              body: {
+                question: values?.question,
+                answers,
+                lesson: dataLesson?.id,
+                assignment: dataLesson?.id ? undefined : dataAssignment?.id,
+                type: questionType,
+                note: values?.note,
+              },
+            },
+            handleSubmitSuccess,
+          ),
+        );
       }
     });
   };
@@ -86,7 +110,7 @@ const ModalQuestionForm: React.FC<TModalQuestionFormProps> = ({ visible, data, d
 
   return (
     <Modal
-      title={`${data ? 'Sửa' : 'Tạo'} Câu Hỏi`}
+      title={`${data ? 'Sửa' : 'Tạo'} câu hỏi${typeLabel ? ` ${typeLabel.toLowerCase()}` : ''}`}
       visible={visible}
       onClose={onClose}
       onSubmit={handleSubmit}

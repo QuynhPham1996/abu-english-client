@@ -1,0 +1,79 @@
+@import '@/assets/styles/_global.scss';
+
+.QuestionBankChildren {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: 1.6rem;
+  border: 1px solid rgba($geraldine, 0.35);
+  border-left: 0.4rem solid $geraldine;
+  border-radius: 1.2rem;
+  background: #fff6f7;
+
+  &-header {
+    gap: 1.2rem;
+
+    strong {
+      display: block;
+      color: $shark;
+      font-size: 1.6rem;
+      line-height: 1.4;
+    }
+  }
+
+  p {
+    margin: 0.2rem 0 0;
+    color: $pale-sky;
+    font-size: 1.3rem;
+  }
+
+  &-empty {
+    padding: 1.6rem;
+    border: 1px dashed rgba($geraldine, 0.55);
+    border-radius: 1rem;
+    background: $white;
+    color: $pale-sky;
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  &-index {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    margin-right: 0.8rem;
+    border-radius: 50%;
+    background: $geraldine;
+    color: $white;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  &-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding: 1.4rem;
+    border: 1px solid $geyser;
+    border-radius: 1.2rem;
+    background: $white;
+    box-shadow: $box-shadow-3;
+
+    &-header {
+      color: $shark;
+      font-weight: 600;
+    }
+  }
+}
+
+.QuestionsBankManagement {
+  &-table {
+    padding: 3.2rem 2.4rem;
+    border-radius: 2.4rem;
+    background: $white;
+    box-shadow: $box-shadow-3;
+    min-height: calc(100vh - 6.5rem - 4.8rem);
+  }
+}

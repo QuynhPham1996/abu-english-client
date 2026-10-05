@@ -48,6 +48,8 @@ export type TCourse = {
   manager: TUser;
   userLessons: TUserLessons[];
   userExercises: TUserExercises[];
+  courseLessons?: TUserLessons[];
+  gradedLessonIds?: string[];
 };
 
 export type TExercise = {
@@ -71,10 +73,13 @@ export type TLesson = {
   type: string;
   arrange: string;
   status: string;
+  index?: number;
+  sourceAssignment?: string;
   createdAt: string;
   updatedAt: string;
   questions: TQuestion[];
   exercise: TExercise;
+  course?: TCourse;
 };
 
 export type TQuestion = {
@@ -84,6 +89,33 @@ export type TQuestion = {
   lesson: TLesson;
   index: number;
   note: string;
+  type?: string;
+  group?: TQuestionGroup | string;
+  assignment?: TAssignment | string;
+  sourceQuestionId?: string;
+  parentId?: string;
+  children?: TQuestion[];
+};
+
+export type TQuestionGroup = {
+  id: string;
+  name: string;
+  description?: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  questions?: TQuestion[];
+};
+
+export type TAssignment = {
+  id: string;
+  name: string;
+  type: string;
+  arrange: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  questions?: TQuestion[];
 };
 
 export type TAnswer = {

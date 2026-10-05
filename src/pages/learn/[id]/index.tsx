@@ -22,7 +22,6 @@ import Loading from '@/components/Loading';
 import { formatVideoDuration, getFullPath, parseLoadingAction } from '@/utils/functions';
 import { EEmpty } from '@/common/enums';
 import TableContentExercise from '@/containers/TableContentExercise';
-import LessonCard from '@/components/LessonCard';
 
 const LearnDetail = () => {
   const dispatch = useDispatch();
@@ -45,7 +44,13 @@ const LearnDetail = () => {
   const exerciseLessons = myCourseExerciseState?.userLessons?.filter(
     (item) => item?.lesson?.exercise?.id === exerciseState?.id,
   );
-  const isEmptyLesson = exerciseLessons?.length === 0;
+  const exerciseLessonNames = new Set(exerciseLessons?.map((item) => item?.lesson?.name).filter(Boolean));
+  const exerciseAttempts =
+    myCourseExerciseState?.tests?.filter(
+      (test) =>
+        exerciseLessons?.some((item) => item.id === test?.userLesson?.id) ||
+        exerciseLessonNames.has(test?.lesson?.name),
+    ) || [];
 
   const totalQuestions = Object.keys(myCourseExerciseState?.totalQuestions || {})?.reduce((result, item) => {
     return result + (myCourseExerciseState?.totalQuestions?.[item] || 0);
@@ -118,7 +123,7 @@ const LearnDetail = () => {
                       <div className="LearnDetail-list-item flex items-center">
                         <Icon name={EIconName.Clock} color={EIconColor.SHARK} />
                         <p className="LearnDetail-description">
-                          <strong>Thời lượng: {formatVideoDuration(exerciseState?.videoDuration || 0)}</strong>
+                          <strong>Thời lượng: {formatVideoDuration(exerciseState?.videoDuration || 0) || '0s'}</strong>
                         </p>
                       </div>
                     </Col>
@@ -135,45 +140,13 @@ const LearnDetail = () => {
                         <Icon name={EIconName.Book2} color={EIconColor.SHARK} />
                         <p className="LearnDetail-description">
                           <strong>
-                            Tổng số lần làm bài tập: {myCourseExerciseState?.tests?.length || EEmpty.ZERO}
+                            Tổng số lần làm bài tập: {exerciseAttempts.length || EEmpty.ZERO}
                           </strong>
                         </p>
                       </div>
                     </Col>
                   </Row>
                 </div>
-
-                {!isEmptyLesson && (
-                  <>
-                    <div className="LearnDetail-line">
-                      <span>
-                        <strong>Bài Tập</strong>
-                      </span>
-                    </div>
-
-                    <div className="LearnDetail-lessons">
-                      {exerciseLessons?.map((item, index) => {
-                        const totalQuestion = myCourseExerciseState?.totalQuestions?.[item?.lesson?.id] || EEmpty.ZERO;
-                        const totalDoExerciseTime =
-                          myCourseExerciseState?.tests?.filter((test) => test?.userLesson?.id === item.id)?.length ||
-                          EEmpty.ZERO;
-
-                        return (
-                          <LessonCard
-                            key={item.id}
-                            name={item?.lesson?.name}
-                            description={`${totalQuestion} câu hỏi - ${totalDoExerciseTime} lần làm bài tập`}
-                            type={item?.lesson?.type}
-                            completed={item.isPass}
-                            onClick={(): void => {
-                              router.push(Paths.DoExercise(item.id));
-                            }}
-                          />
-                        );
-                      })}
-                    </div>
-                  </>
-                )}
 
                 <div className="LearnDetail-line">
                   <span>
@@ -185,8 +158,21 @@ const LearnDetail = () => {
                   <TableContentExercise
                     activeId={myCourseExerciseState?.data?.id}
                     showBadge={false}
+                    showLessons
+                    collapsibleLessons
+                    gradedLessonIds={myCourseExerciseState?.gradedLessonIds}
                     userLessons={myCourseExerciseState?.userLessons}
                     userExercises={myCourseExerciseState?.userExercises}
+                    getLessonDescription={(userLesson): string => {
+                      const totalQuestion = myCourseExerciseState?.totalQuestions?.[userLesson?.lesson?.id] || EEmpty.ZERO;
+                      const totalDoExerciseTime =
+                        myCourseExerciseState?.tests?.filter(
+                          (test) =>
+                            test?.userLesson?.id === userLesson.id || test?.lesson?.name === userLesson?.lesson?.name,
+                        ).length || EEmpty.ZERO;
+
+                      return `${totalQuestion} câu hỏi - ${totalDoExerciseTime} lần làm bài tập`;
+                    }}
                   />
                 </div>
               </Col>

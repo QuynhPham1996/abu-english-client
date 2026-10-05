@@ -99,7 +99,7 @@ const ModalUserForm: React.FC<TModalUserFormProps> = ({ visible, data, role, onC
       visible={visible}
       onClose={onClose}
       onSubmit={handleSubmit}
-      width={480}
+      width={720}
       showActions
       loading={loading}
     >
@@ -117,7 +117,7 @@ const ModalUserForm: React.FC<TModalUserFormProps> = ({ visible, data, role, onC
             </Col>
 
             {!data && (
-              <Col span={24}>
+              <Col xs={24} md={12}>
                 <Form.Item
                   label="Tên đăng nhập"
                   name="username"
@@ -129,37 +129,8 @@ const ModalUserForm: React.FC<TModalUserFormProps> = ({ visible, data, role, onC
               </Col>
             )}
 
-            <Col span={24}>
-              <Form.Item label="Họ và tên" name="name" required rules={[validationRules.required()]}>
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col span={24}>
-              <Form.Item label="Email" name="email" rules={[validationRules.email()]}>
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col span={24}>
-              <Form.Item label="Số điện thoại" name="phoneNumber" rules={[validationRules.phoneNumberVietnam()]}>
-                <Input numberic numberstring />
-              </Form.Item>
-            </Col>
-            <Col span={24}>
-              <Form.Item label="Trạng thái" name="status" rules={[validationRules.required()]}>
-                <Select options={dataUserStatusOptions} />
-              </Form.Item>
-            </Col>
-            {formValues?.status?.value === EUserStatus.INACTIVE && (
-              <Col span={24}>
-                <HelpBadge
-                  type={EHelpBadgeType.WARNING}
-                  title={`Học viên có trạng thái “${formValues?.status?.label}” sẽ không có quyền truy cập hệ thống. Dữ liệu thông tin của học viên này vẫn sẽ được lưu lại.`}
-                />
-              </Col>
-            )}
-
             {!data && (
-              <Col span={24}>
+              <Col xs={24} md={12}>
                 <Form.Item
                   label="Mật khẩu"
                   name="password"
@@ -183,6 +154,36 @@ const ModalUserForm: React.FC<TModalUserFormProps> = ({ visible, data, role, onC
                 </Form.Item>
               </Col>
             )}
+
+            <Col xs={24} md={12}>
+              <Form.Item label="Họ và tên" name="name" required rules={[validationRules.required()]}>
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+              <Form.Item label="Email" name="email" rules={[validationRules.email()]}>
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+              <Form.Item label="Số điện thoại" name="phoneNumber" rules={[validationRules.phoneNumberVietnam()]}>
+                <Input numberic numberstring />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+              <Form.Item label="Trạng thái" name="status" rules={[validationRules.required()]}>
+                <Select options={dataUserStatusOptions} />
+              </Form.Item>
+            </Col>
+            {formValues?.status?.value === EUserStatus.INACTIVE && (
+              <Col span={24}>
+                <HelpBadge
+                  type={EHelpBadgeType.WARNING}
+                  title={`Học viên có trạng thái “${formValues?.status?.label}” sẽ không có quyền truy cập hệ thống. Dữ liệu thông tin của học viên này vẫn sẽ được lưu lại.`}
+                />
+              </Col>
+            )}
+
           </Row>
         </Form>
       </div>

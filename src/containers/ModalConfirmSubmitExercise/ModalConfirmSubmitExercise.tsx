@@ -29,7 +29,7 @@ const ModalConfirmSubmitExercise: React.FC<TModalConfirmSubmitExerciseProps> = (
       userAnswers: data?.doExerciseState?.map((item: TDoExerciseData) => {
         return {
           question: item.id,
-          answer: item?.data?.value || item?.data,
+          answer: item?.data,
         };
       }),
     };

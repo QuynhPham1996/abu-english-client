@@ -48,7 +48,7 @@ const ExercisesManagement = () => {
       render: (_: string, record: TTest): React.ReactElement => (
         <div className="Table-info">
           <div className="Table-info-title ellipsis-1">{record?.lesson?.name}</div>
-          <div className="Table-info-description">Bài học: {record?.lesson?.exercise?.name}</div>
+          <div className="Table-info-description">Bài học: {record?.lesson?.exercise?.name || EEmpty.DASH}</div>
         </div>
       ),
     },
@@ -61,8 +61,13 @@ const ExercisesManagement = () => {
       className: 'limit-width-large',
       render: (_: string, record: TTest): React.ReactElement => (
         <div className="Table-info">
-          <div className="Table-info-title ellipsis-1">{record?.lesson?.exercise?.course?.name}</div>
-          <div className="Table-info-description">Giảng viên: {record?.lesson?.exercise?.course?.manager?.name}</div>
+          <div className="Table-info-title ellipsis-1">
+            {record?.lesson?.exercise?.course?.name || record?.lesson?.course?.name || EEmpty.DASH}
+          </div>
+          <div className="Table-info-description">
+            Giảng viên:{' '}
+            {record?.lesson?.exercise?.course?.manager?.name || record?.lesson?.course?.manager?.name || EEmpty.DASH}
+          </div>
         </div>
       ),
     },

@@ -7,12 +7,14 @@ import SEO from '@/components/SEO';
 import { parseLoadingAction } from '@/utils/functions';
 import DoExerciseIntroduction from '@/containers/DoExerciseIntroduction';
 import { ServerProtectedRoute } from '@/utils/server-side';
-import DoExerciseMain from '@/containers/DoExerciseMain';
+import LessonPreview from '@/containers/LessonPreview';
+import ModalConfirmSubmitExercise from '@/containers/ModalConfirmSubmitExercise';
 import { TRootState } from '@/redux/reducers';
 import { EGetMyCourseLessonAction, getMyCourseLessonAction } from '@/redux/actions';
 import Loading from '@/components/Loading';
 import { useRouter } from 'next/router';
 import Empty from '@/components/Empty';
+import { useModalState, useWarnIfUnsavedChanges } from '@/utils/hooks';
 
 const DoExercise = () => {
   const dispatch = useDispatch();
@@ -20,11 +22,13 @@ const DoExercise = () => {
   const id = router?.query?.id as string;
   const [isStarted, setIsStarted] = useState<boolean>(false);
 
-  const myCourseLessonState = useSelector((state: TRootState) => state.courseReducer.getMyCourseLessonResponse)?.data;
+  const myCourseLessonResponse = useSelector((state: TRootState) => state.courseReducer.getMyCourseLessonResponse);
+  const myCourseLessonState = myCourseLessonResponse?.data;
   const getMyCourseLessonLoading = parseLoadingAction(
     useSelector((state: TRootState) => state.loadingReducer[EGetMyCourseLessonAction.GET_MY_COURSE_LESSON]),
   );
   const isEmpty = myCourseLessonState?.lesson?.questions?.length === 0;
+  const [confirmSubmitModalState, handleOpenConfirmSubmit, handleCloseConfirmSubmit] = useModalState();
 
   const getMyCourseLesson = useCallback(() => {
     if (id) dispatch(getMyCourseLessonAction.request({ paths: { id } }));
@@ -33,6 +37,12 @@ const DoExercise = () => {
   useEffect(() => {
     getMyCourseLesson();
   }, [getMyCourseLesson]);
+
+  useWarnIfUnsavedChanges(isStarted && !confirmSubmitModalState?.visible, () => {
+    return confirm(
+      'Bạn có chắc chắn muốn thoát bài tập kiểm tra lần này không? Quá trình làm bài sẽ không được lưu lại.',
+    );
+  });
 
   return (
     <>
@@ -53,10 +63,22 @@ const DoExercise = () => {
                   <Empty />
                 </div>
               ) : (
-                <div className="DoExercise">
-                  <div className="DoExercise-wrapper">
-                    <DoExerciseMain />
-                  </div>
+                <div className="DoExercise is-doing">
+                  <LessonPreview
+                    preview={false}
+                    lessons={myCourseLessonState?.lesson ? [myCourseLessonState.lesson] : []}
+                    lessonId={myCourseLessonState?.lesson?.id}
+                    onSubmit={(questions, duration): void =>
+                      handleOpenConfirmSubmit({
+                        userLessonId: myCourseLessonState?.id,
+                        userExerciseId: myCourseLessonResponse?.userExercise?.id,
+                        lessonId: myCourseLessonState?.lesson?.id,
+                        timer: duration,
+                        doExerciseState: questions,
+                      })
+                    }
+                  />
+                  <ModalConfirmSubmitExercise {...confirmSubmitModalState} onClose={handleCloseConfirmSubmit} />
                 </div>
               )}
             </>

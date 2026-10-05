@@ -9,6 +9,9 @@ import publicSaga from './public';
 import questionSaga from './question';
 import testSaga from './test';
 import userSaga from './user';
+import questionGroupSaga from './question-group';
+import questionBankSaga from './question-bank';
+import assignmentSaga from './assignment';
 
 const rootSaga = function* root(): Generator {
   yield all([
@@ -21,6 +24,9 @@ const rootSaga = function* root(): Generator {
     fork(questionSaga),
     fork(testSaga),
     fork(userSaga),
+    fork(questionGroupSaga),
+    fork(questionBankSaga),
+    fork(assignmentSaga),
   ]);
 };
 

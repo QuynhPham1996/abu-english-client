@@ -35,26 +35,29 @@ const Exercises = () => {
   });
 
   const testsUserStateResponse = testsUserState as TGetTestsUserResponse;
+  const doneLessons = testsUserStateResponse?.passUserLessons || 0;
+  const requiredLessons = testsUserStateResponse?.totalUserLessons || 0;
+  const averageScore = Math.floor(testsUserStateResponse?.averageScore || 0);
 
   const dataSummary = [
     {
       key: 'average',
-      value: Math.floor(testsUserStateResponse?.averageScore || 0),
-      title: `${Math.floor(testsUserStateResponse?.averageScore || 0)}%`,
+      value: averageScore,
+      title: `${averageScore}%`,
       description: 'Điểm trung bình',
       color: EIconColor.MOUNTAIN_MEADOW,
     },
     {
       key: 'exercises',
-      value: Math.floor(((testsUserStateResponse?.passUserLessons || 0) / (testsUserStateResponse?.totalUserLessons || 0)) * 100),
-      title: `${testsUserStateResponse?.passUserLessons || 0}/${testsUserStateResponse?.totalUserLessons || 0}`,
+      value: requiredLessons ? Math.floor((doneLessons / requiredLessons) * 100) : 0,
+      title: `${doneLessons}/${requiredLessons}`,
       description: 'Bài tập đã làm',
       color: EIconColor.SUNGLOW,
     },
     {
       key: 'total',
       value: 100,
-      title: testsUserStateResponse?.paginate?.total || 0,
+      title: testsUserStateResponse?.totalAttempts || 0,
       description: 'Tổng số lần làm bài tập',
       color: EIconColor.ALIZARIN_CRIMSON,
     },
@@ -86,8 +89,12 @@ const Exercises = () => {
       className: 'limit-width-large',
       render: (_: string, record: TTest): React.ReactElement => (
         <div className="Table-info">
-          <div className="Table-info-title ellipsis-1">{record?.lesson?.exercise?.course?.name}</div>
-          <div className="Table-info-description">Bài học: {record?.lesson?.exercise?.name}</div>
+          <div className="Table-info-title ellipsis-1">
+            {record?.lesson?.exercise?.course?.name || record?.lesson?.course?.name}
+          </div>
+          {record?.lesson?.exercise?.name && (
+            <div className="Table-info-description">Bài học: {record?.lesson?.exercise?.name}</div>
+          )}
         </div>
       ),
     },
@@ -231,7 +238,7 @@ const Exercises = () => {
               {dataSummary.map((item) => {
                 return (
                   <Col key={item.key} span={8}>
-                    <div className="Exercises-summary-item flex items-end">
+                    <div className="Exercises-summary-item flex items-center justify-center">
                       <div
                         className="Exercises-summary-item-bar"
                         style={{

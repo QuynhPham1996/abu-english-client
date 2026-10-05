@@ -206,6 +206,18 @@ const CourseDetailManagement = () => {
         <div onClick={(e): void => e.stopPropagation()}>
           <Row gutter={[8, 8]} wrap={false}>
             <Col>
+              <Tooltip title="Xem trước">
+                <Button
+                  iconName={EIconName.ClipboardText}
+                  iconColor={EIconColor.SHARK}
+                  size="small"
+                  styleType={EButtonStyleType.OUTLINE_GEYSER}
+                  link={Paths.LessonPreview(id, record?.id)}
+                  targetLink="_blank"
+                />
+              </Tooltip>
+            </Col>
+            <Col>
               <Tooltip title="Xem chi tiết">
                 <Button
                   iconName={EIconName.Eye}
@@ -312,7 +324,7 @@ const CourseDetailManagement = () => {
                           </Col>
 
                           <Col>
-                            <Row gutter={[16, 16]}>
+                            <Row gutter={[8, 8]}>
                               <Col>
                                 <Button
                                   title="Tạo mới Bài học"
@@ -334,6 +346,7 @@ const CourseDetailManagement = () => {
                       loading={getExercisesLoading}
                       onPaginationChange={handlePaginationExercisesChange}
                     />
+
                   </div>
                 </Col>
                 <Col span={24} lg={{ span: 8 }}>

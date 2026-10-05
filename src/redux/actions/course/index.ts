@@ -1,4 +1,6 @@
+export * from './attach-course-assignments';
 export * from './create-course';
+export * from './get-course-assignments';
 export * from './delete-courses';
 export * from './get-course';
 export * from './get-courses-available';

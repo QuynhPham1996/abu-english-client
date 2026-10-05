@@ -76,6 +76,48 @@
     }
   }
 
+  &-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 2.4rem;
+    align-items: stretch;
+
+    @media (max-width: 991px) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  &-pane {
+    min-width: 0;
+    padding: 2rem;
+    border: 1px solid $geyser;
+    border-radius: 1.6rem;
+    max-height: calc(100vh - 28rem);
+    overflow: auto;
+
+    @media (max-width: 991px) {
+      max-height: none;
+    }
+  }
+
+  &-question {
+    font-size: 1.6rem;
+    line-height: 1.7;
+    color: $shark;
+    word-break: break-word;
+
+    img,
+    video,
+    iframe {
+      max-width: 100%;
+      height: auto;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
   &-actions {
     margin-top: 2.4rem;
 

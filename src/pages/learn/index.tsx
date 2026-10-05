@@ -79,14 +79,41 @@ const Learn = () => {
                 expandIcon={(): React.ReactNode => <Icon name={EIconName.AngleDown} color={EIconColor.SHARK} />}
               >
                 {myCoursesState?.map((item) => {
+                  const exerciseLessonIds = new Set(
+                    (item?.userExercises || []).flatMap(
+                      (subItem) => subItem?.exercise?.lessons?.map((lesson) => lesson.id) || [],
+                    ),
+                  );
+                  const exerciseUserLessons = (item?.userLessons || []).filter((userLesson) =>
+                    exerciseLessonIds.has(userLesson?.lesson?.id),
+                  );
+                  const courseUserLessons = (item?.courseLessons || []).filter(
+                    (userLesson) => !exerciseLessonIds.has(userLesson?.lesson?.id),
+                  );
+                  const scopedLessons = [...exerciseUserLessons, ...courseUserLessons];
+
                   const totalExercises = Number(item?.userExercises?.length || EEmpty.ZERO);
                   const totalExercisesCompleted = Number(
                     item?.userExercises?.filter((subItem) => subItem.isPass)?.length || EEmpty.ZERO,
                   );
 
-                  const totalLessons = Number(item?.userLessons?.length || EEmpty.ZERO);
+                  const gradedLessonIds = new Set(item?.gradedLessonIds || []);
+                  const isLessonDone = (userLesson?: { isPass?: boolean; lesson?: { id?: string; name?: string } }): boolean =>
+                    Boolean(userLesson?.isPass) || gradedLessonIds.has(userLesson?.lesson?.id || '');
+                  const doneNames = new Set(
+                    scopedLessons
+                      .filter((userLesson) => isLessonDone(userLesson))
+                      .map((userLesson) => userLesson?.lesson?.name)
+                      .filter((name) => Boolean(name)),
+                  );
+                  const completedAssignments = exerciseUserLessons.filter(
+                    (userLesson) => isLessonDone(userLesson) || doneNames.has(userLesson?.lesson?.name),
+                  ).length;
+
+                  const totalLessons = Number(scopedLessons.length || EEmpty.ZERO);
                   const totalLessonsCompleted = Number(
-                    item?.userLessons?.filter((subItem) => subItem.isPass)?.length || EEmpty.ZERO,
+                    scopedLessons.filter((subItem) => isLessonDone(subItem) || doneNames.has(subItem?.lesson?.name))
+                      .length || EEmpty.ZERO,
                   );
 
                   const percent = caculateProcessPercent({
@@ -96,19 +123,6 @@ const Learn = () => {
                     totalLessonsCompleted,
                   });
 
-                  const totalExercisesFullCompleted = Number(
-                    item?.userExercises?.filter((subItem) => {
-                      const isAllLessonsCompleted = item?.userLessons
-                        ?.filter(
-                          (userLesson) =>
-                            subItem?.exercise?.lessons?.map((lesson) => lesson.id)?.includes(userLesson?.lesson?.id),
-                        )
-                        ?.every((subItem) => subItem.isPass);
-
-                      return subItem.isPass && isAllLessonsCompleted;
-                    })?.length || EEmpty.ZERO,
-                  );
-
                   return (
                     <PanelModify
                       key={item.id}
@@ -116,7 +130,7 @@ const Learn = () => {
                         <div className="Learn-courses-header">
                           <h2 className="Learn-courses-header-title">{item.name}</h2>
                           <p className="Learn-courses-header-description">
-                            Số bài học hoàn thành: {totalExercisesFullCompleted}/{totalExercises}
+                            Số bài tập đã hoàn thành: {completedAssignments}/{exerciseUserLessons.length || EEmpty.ZERO}
                           </p>
                           <div className="Learn-courses-header-progress">
                             <div className="Learn-courses-header-progress-line" style={{ width: `${percent}%` }} />
@@ -127,7 +141,12 @@ const Learn = () => {
                         </div>
                       }
                     >
-                      <TableContentExercise userLessons={item?.userLessons} userExercises={item.userExercises} />
+                      <TableContentExercise
+                        showLessons
+                        gradedLessonIds={item?.gradedLessonIds}
+                        userLessons={item?.userLessons}
+                        userExercises={item.userExercises}
+                      />
                     </PanelModify>
                   );
                 })}

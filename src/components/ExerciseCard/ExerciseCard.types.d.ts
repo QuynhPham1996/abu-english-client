@@ -6,5 +6,7 @@ export type TExerciseCardProps = {
   percent?: number;
   name?: string;
   description?: string;
+  expanded?: boolean;
+  onToggle?: () => void;
   onClick?: () => void;
 };

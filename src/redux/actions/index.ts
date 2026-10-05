@@ -8,3 +8,6 @@ export * from './question';
 export * from './test';
 export * from './ui';
 export * from './user';
+export * from './question-group';
+export * from './question-bank';
+export * from './assignment';

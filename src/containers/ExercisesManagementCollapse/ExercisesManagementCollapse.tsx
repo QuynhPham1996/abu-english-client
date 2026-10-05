@@ -4,9 +4,11 @@ import { useMediaQuery } from 'react-responsive';
 
 import Icon, { EIconColor, EIconName } from '@/components/Icon';
 import Button, { EButtonStyleType } from '@/components/Button';
+import DropdownMenu from '@/components/DropdownMenu';
 import Tag, { ETagType } from '@/components/Tag';
 import { dataLessonArrangeOptions, dataLessonStatusOptions, dataLessonTypeOptions } from '@/common/constants';
 import Empty from '@/components/Empty';
+import Tooltip from '@/components/Tooltip';
 import { TQuestion } from '@/common/models';
 import { EEmpty } from '@/common/enums';
 import QuestionsSortable from '@/containers/ExercisesManagementCollapse/QuestionsSortable/QuestionsSortable';
@@ -23,8 +25,11 @@ const ExercisesManagementCollapse: React.FC<TExercisesManagementCollapseProps> =
   onItemDelete,
   onItemEdit,
   onItemCreate,
+  onPickBankQuestions,
+  onPickQuestionGroup,
   onGroupItemEdit,
   onGroupItemDelete,
+  onPreview,
 }) => {
   const isMobile = useMediaQuery({ maxWidth: 575 });
 
@@ -75,6 +80,17 @@ const ExercisesManagementCollapse: React.FC<TExercisesManagementCollapseProps> =
                         />
                       </Col>
                     )}
+                    {item.sourceAssignment && (
+                      <Col>
+                        <Tag
+                          type={ETagType.GENERAL}
+                          title="Từ thư viện"
+                          size="small"
+                          iconName={EIconName.ClipboardText}
+                          iconColor={EIconColor.SHARK}
+                        />
+                      </Col>
+                    )}
                   </Row>
                   <Row gutter={[16, 16]} align="middle" justify="space-between" wrap={false}>
                     <Col>
@@ -91,35 +107,76 @@ const ExercisesManagementCollapse: React.FC<TExercisesManagementCollapseProps> =
                     </Col>
                     <Col onClick={(e): void => e.stopPropagation()}>
                       <Row gutter={[8, 8]} wrap={false}>
+                        {(onItemCreate || onPickBankQuestions || onPickQuestionGroup) && (
+                          <Col>
+                            <DropdownMenu
+                              placement="bottomRight"
+                              options={[
+                                {
+                                  value: 'create',
+                                  label: 'Tạo câu hỏi mới',
+                                  icon: EIconName.Plus,
+                                  hide: !onItemCreate,
+                                  onClick: (): void => onItemCreate?.(undefined, { dataLesson: item }),
+                                },
+                                {
+                                  value: 'bank',
+                                  label: 'Chọn câu hỏi có sẵn',
+                                  icon: EIconName.Help,
+                                  hide: !onPickBankQuestions,
+                                  onClick: (): void => onPickBankQuestions?.(item),
+                                },
+                                {
+                                  value: 'group',
+                                  label: 'Chọn nhóm câu hỏi',
+                                  icon: EIconName.UsersGroup,
+                                  hide: !onPickQuestionGroup,
+                                  onClick: (): void => onPickQuestionGroup?.(item),
+                                },
+                              ]}
+                            >
+                              <Button
+                                title={isMobile ? undefined : 'Thêm câu'}
+                                styleType={EButtonStyleType.OUTLINE_GEYSER}
+                                iconName={EIconName.Plus}
+                                iconColor={EIconColor.SHARK}
+                                size="small"
+                              />
+                            </DropdownMenu>
+                          </Col>
+                        )}
                         <Col>
-                          <Button
-                            title={isMobile ? undefined : 'Thêm câu hỏi'}
-                            styleType={EButtonStyleType.OUTLINE_GEYSER}
-                            iconName={EIconName.Plus}
-                            iconColor={EIconColor.SHARK}
-                            size="small"
-                            onClick={(): void => onItemCreate?.(undefined, { dataLesson: item })}
-                          />
+                          <Tooltip title="Xem trước">
+                            <Button
+                              styleType={EButtonStyleType.OUTLINE_GEYSER}
+                              iconName={EIconName.Eye}
+                              iconColor={EIconColor.SHARK}
+                              size="small"
+                              onClick={(): void => onPreview?.(item)}
+                            />
+                          </Tooltip>
                         </Col>
                         <Col>
-                          <Button
-                            title={isMobile ? undefined : 'Sửa bài tập'}
-                            styleType={EButtonStyleType.OUTLINE_GEYSER}
-                            iconName={EIconName.Pencil}
-                            iconColor={EIconColor.SHARK}
-                            size="small"
-                            onClick={(): void => onGroupItemEdit?.(item)}
-                          />
+                          <Tooltip title="Sửa bài tập">
+                            <Button
+                              styleType={EButtonStyleType.OUTLINE_GEYSER}
+                              iconName={EIconName.Pencil}
+                              iconColor={EIconColor.SHARK}
+                              size="small"
+                              onClick={(): void => onGroupItemEdit?.(item)}
+                            />
+                          </Tooltip>
                         </Col>
                         <Col>
-                          <Button
-                            title={isMobile ? undefined : 'Xoá bài tập'}
-                            styleType={EButtonStyleType.OUTLINE_GEYSER}
-                            iconName={EIconName.Trash}
-                            iconColor={EIconColor.SHARK}
-                            size="small"
-                            onClick={(): void => onGroupItemDelete?.(item)}
-                          />
+                          <Tooltip title="Xoá bài tập">
+                            <Button
+                              styleType={EButtonStyleType.OUTLINE_GEYSER}
+                              iconName={EIconName.Trash}
+                              iconColor={EIconColor.SHARK}
+                              size="small"
+                              onClick={(): void => onGroupItemDelete?.(item)}
+                            />
+                          </Tooltip>
                         </Col>
                       </Row>
                     </Col>

@@ -13,6 +13,7 @@ export type TGetTestsUserMaterials = {
 export type TGetTestsUserResponse = TCommonPaginate & {
   data: TTest[];
   averageScore: number;
+  totalAttempts: number;
   totalUserLessons: number;
   passUserLessons: number;
 };

@@ -11,7 +11,7 @@ import { ELessonArrange } from '@/common/enums';
 
 import { TQuestionsSortableProps } from './QuestionsSortable.types';
 import { useDispatch } from 'react-redux';
-import { updateLessonQuestionsIndexAction } from '@/redux/actions';
+import { updateAssignmentQuestionsIndexAction, updateLessonQuestionsIndexAction } from '@/redux/actions';
 
 const DragHandle = SortableHandle(() => (
   <div className="QuestionsSortable-item-holder">
@@ -107,34 +107,44 @@ const SortableList: any = SortableContainer(
   },
 );
 
-const QuestionsSortable: React.FC<TQuestionsSortableProps> = ({ data, dataLesson, onItemDelete, onItemEdit }) => {
+const QuestionsSortable: React.FC<TQuestionsSortableProps> = ({
+  data,
+  dataLesson,
+  dataAssignment,
+  onItemDelete,
+  onItemEdit,
+}) => {
   const dispatch = useDispatch();
   const [sortableData, setSortableData] = useState<TQuestion[]>([]);
-  const showHandler = dataLesson?.arrange === ELessonArrange.ORDER;
+  const arrange = dataAssignment?.arrange || dataLesson?.arrange;
+  const showHandler = arrange === ELessonArrange.ORDER;
 
   const handleSortEnd = (e: any): void => {
     const newData = arrayMove(sortableData, e.oldIndex, e.newIndex);
     const newDataWithNewIndex = newData.map((item, index) => ({ ...item, index }));
     setSortableData(newDataWithNewIndex);
 
-    if (dataLesson) {
-      const body = {
-        newIndex: newDataWithNewIndex.reduce((result, item) => {
-          return {
-            ...result,
-            [item.id]: item.index,
-          };
-        }, {}),
-      };
+    const body = {
+      newIndex: newDataWithNewIndex.reduce((result, item) => {
+        return {
+          ...result,
+          [item.id]: item.index,
+        };
+      }, {}),
+    };
 
+    if (dataAssignment?.id) {
+      dispatch(updateAssignmentQuestionsIndexAction.request({ paths: { id: dataAssignment.id }, body }));
+      return;
+    }
+
+    if (dataLesson?.id) {
       dispatch(updateLessonQuestionsIndexAction.request({ paths: { id: dataLesson.id }, body }));
     }
   };
 
   useEffect(() => {
-    if (data && data.length > 0) {
-      setSortableData(_.orderBy(data, 'index', 'asc'));
-    }
+    setSortableData(_.orderBy(data || [], 'index', 'asc'));
   }, [data]);
 
   return (

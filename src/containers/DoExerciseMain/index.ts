@@ -1,4 +1,2 @@
-import DoExerciseMain from './DoExerciseMain';
-
-export * from './DoExerciseMain.types.d';
-export default DoExerciseMain;
+export { default } from '@/containers/LessonPreview';
+export type { TDoExerciseData, TPreviewLesson } from '@/containers/LessonPreview';

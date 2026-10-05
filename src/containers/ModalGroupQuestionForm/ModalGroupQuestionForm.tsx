@@ -16,6 +16,7 @@ const ModalGroupQuestionForm: React.FC<TModalGroupQuestionFormProps> = ({
   visible,
   data,
   dataExercise,
+  dataCourse,
   onClose,
   onSuccess,
 }) => {
@@ -40,6 +41,7 @@ const ModalGroupQuestionForm: React.FC<TModalGroupQuestionFormProps> = ({
         arrange: values?.arrange?.value,
         status: values?.status?.value,
         exercise: !data ? dataExercise?.id : undefined,
+        course: !data && !dataExercise?.id ? dataCourse?.id : undefined,
       };
 
       if (data) {

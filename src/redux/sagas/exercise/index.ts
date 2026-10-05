@@ -7,6 +7,7 @@ import {
   getExercisesFromCourseAction,
   updateExerciseAction,
   uploadExerciseVideoAction,
+  attachExerciseAssignmentsAction,
 } from '@/redux/actions';
 
 import { createExerciseSaga } from './create-exercise';
@@ -15,6 +16,7 @@ import { getExerciseSaga } from './get-exercise';
 import { getExercisesFromCourseSaga } from './get-exercises-from-course';
 import { updateExerciseSaga } from './update-exercise';
 import { uploadExerciseVideoSaga } from './upload-exercise-video';
+import { attachExerciseAssignmentsSaga } from './attach-exercise-assignments';
 
 export default function* root(): Generator {
   yield all([
@@ -24,5 +26,6 @@ export default function* root(): Generator {
     takeLatest(getExercisesFromCourseAction.request.type, getExercisesFromCourseSaga),
     takeLatest(updateExerciseAction.request.type, updateExerciseSaga),
     takeLatest(uploadExerciseVideoAction.request.type, uploadExerciseVideoSaga),
+    takeLatest(attachExerciseAssignmentsAction.request.type, attachExerciseAssignmentsSaga),
   ]);
 }

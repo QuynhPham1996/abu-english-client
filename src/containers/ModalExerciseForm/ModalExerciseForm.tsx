@@ -81,7 +81,7 @@ const ModalExerciseForm: React.FC<TModalExerciseFormProps> = ({ visible, data, d
       visible={visible}
       onClose={onClose}
       onSubmit={handleSubmit}
-      width={480}
+      width={720}
       showActions
       loading={loading}
     >
@@ -92,17 +92,12 @@ const ModalExerciseForm: React.FC<TModalExerciseFormProps> = ({ visible, data, d
           onValuesChange={(_, values): void => setFormValues({ ...formValues, ...values })}
         >
           <Row gutter={[16, 16]}>
-            <Col span={24}>
+            <Col xs={24} md={12}>
               <Form.Item label="Tên bài học" name="name" required rules={[validationRules.required()]}>
                 <Input />
               </Form.Item>
             </Col>
-            <Col span={24}>
-              <Form.Item label="Mô tả" name="description">
-                <TextArea />
-              </Form.Item>
-            </Col>
-            <Col span={24}>
+            <Col xs={24} md={12}>
               <Form.Item
                 label="Trạng thái"
                 name="status"
@@ -110,6 +105,11 @@ const ModalExerciseForm: React.FC<TModalExerciseFormProps> = ({ visible, data, d
                 initialValue={dataExerciseStatusOptions.find((option) => option.value === EExerciseStatus.PUBLIC)}
               >
                 <Select options={dataExerciseStatusOptions} />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item label="Mô tả" name="description">
+                <TextArea />
               </Form.Item>
             </Col>
             {formValues?.status?.value === EExerciseStatus.PRIVATE && (

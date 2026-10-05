@@ -19,6 +19,7 @@ export type TGetMyCourseExerciseResponse = {
   userLessons: TUserLessons[];
   userExercises: TUserExercises[];
   tests: TTest[];
+  gradedLessonIds?: string[];
 };
 
 // FUNCTION

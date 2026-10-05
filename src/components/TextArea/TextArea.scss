@@ -14,6 +14,12 @@
     }
   }
 
+  &.resizable .ant-input {
+    min-height: 7.2rem;
+    resize: vertical;
+    overflow: auto;
+  }
+
   .ant-input-textarea {
     width: 100%;
   }

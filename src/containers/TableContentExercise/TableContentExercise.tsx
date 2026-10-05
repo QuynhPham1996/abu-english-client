@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import Empty from '@/components/Empty';
 import ExerciseCard from '@/components/ExerciseCard';
+import LessonCard from '@/components/LessonCard';
 import { Paths } from '@/routers/constants';
 import { EEmpty } from '@/common/enums';
 import { TUserExercises, TUserLessons } from '@/common/models';
@@ -11,12 +12,23 @@ import { TTableContentExerciseProps } from './TableContentExercise.types.d';
 
 const TableContentExercise: React.FC<TTableContentExerciseProps> = ({
   showBadge = true,
+  showLessons = false,
+  collapsibleLessons = false,
+  gradedLessonIds = [],
+  getLessonDescription,
   activeId,
   userExercises = [],
   userLessons = [],
 }) => {
   const router = useRouter();
+  const [collapsedIds, setCollapsedIds] = useState<string[]>([]);
   const isEmptyExercises = userExercises?.length === 0;
+  const gradedIds = new Set(gradedLessonIds);
+  const isLessonDone = (userLesson?: TUserLessons): boolean =>
+    Boolean(userLesson?.isPass) || gradedIds.has(userLesson?.lesson?.id || '');
+  const doneNames = new Set(
+    userLessons.filter((userLesson) => isLessonDone(userLesson)).map((userLesson) => userLesson?.lesson?.name).filter(Boolean),
+  );
 
   const getUserLessonsFromExercise = (userExercise: TUserExercises): TUserLessons[] => {
     return (
@@ -58,23 +70,56 @@ const TableContentExercise: React.FC<TTableContentExerciseProps> = ({
 
             const isActive = activeIndex === subItemIndex;
             const isActiveId = activeId === subItem?.id;
-            const isLock = subItemIndex > activeIndex;
+            const isLock = activeIndex !== -1 && subItemIndex > activeIndex;
+            const canToggleLessons = collapsibleLessons && showLessons && lessonsIncludeExercise.length > 0;
+            const isExpanded = !collapsedIds.includes(subItem.id);
 
             return (
-              <ExerciseCard
-                key={subItem.id}
-                numberIndex={subItemIndex + 1}
-                percent={percent}
-                badgeTitle={showBadge && isActive ? 'Học ngay' : undefined}
-                locked={isLock}
-                active={activeId ? isActiveId : isActive}
-                onClick={(): void => {
-                  if (!isLock) {
-                    router.push(Paths.LearnDetail(subItem.id));
+              <React.Fragment key={subItem.id}>
+                <ExerciseCard
+                  numberIndex={subItemIndex + 1}
+                  percent={percent}
+                  badgeTitle={showBadge && isActive ? 'Học ngay' : undefined}
+                  locked={isLock}
+                  active={activeId ? isActiveId : isActive}
+                  expanded={isExpanded}
+                  onToggle={
+                    canToggleLessons
+                      ? (): void => {
+                          setCollapsedIds((current) =>
+                            current.includes(subItem.id)
+                              ? current.filter((item) => item !== subItem.id)
+                              : [...current, subItem.id],
+                          );
+                        }
+                      : undefined
                   }
-                }}
-                {...subItem?.exercise}
-              />
+                  onClick={(): void => {
+                    if (!isLock) {
+                      router.push(Paths.LearnDetail(subItem.id));
+                    }
+                  }}
+                  {...subItem?.exercise}
+                />
+                {showLessons && isExpanded && !!lessonsIncludeExercise.length && (
+                  <div className="TableContentExercise-lessons">
+                    {lessonsIncludeExercise.map((userLesson) => (
+                      <LessonCard
+                        key={userLesson.id}
+                        name={userLesson?.lesson?.name}
+                        type={userLesson?.lesson?.type}
+                        description={getLessonDescription?.(userLesson) || 'Bài tập của bài học'}
+                        completed={isLessonDone(userLesson) || doneNames.has(userLesson?.lesson?.name)}
+                        onClick={(): void => {
+                          if (!isLock) {
+                            router.push(Paths.DoExercise(userLesson.id));
+                          }
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+              </React.Fragment>
             );
           })}
         </div>

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import ModalConfirm from '@/components/ModalConfirm';
-import { TDoExerciseData } from '@/containers/DoExerciseMain';
+import { TDoExerciseData } from '@/containers/ViewExerciseMain';
 import { EGradedTestAction, gradedTestAction } from '@/redux/actions';
 import { showNotification } from '@/utils/functions';
 import { ETypeNotification } from '@/common/enums';

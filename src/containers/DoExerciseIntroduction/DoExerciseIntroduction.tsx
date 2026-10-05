@@ -9,9 +9,10 @@ import { Paths } from '@/routers/constants';
 
 import { TDoExerciseIntroductionProps } from './DoExerciseIntroduction.types';
 
-const DoExerciseIntroduction: React.FC<TDoExerciseIntroductionProps> = ({ onStart }) => {
+const DoExerciseIntroduction: React.FC<TDoExerciseIntroductionProps> = ({ onStart, lesson }) => {
   const myCourseLessonState = useSelector((state: TRootState) => state.courseReducer.getMyCourseLessonResponse)?.data;
-  const totalQuestions = myCourseLessonState?.lesson?.questions?.length || EEmpty.ZERO;
+  const lessonState = lesson || myCourseLessonState?.lesson;
+  const totalQuestions = lessonState?.questions?.length || EEmpty.ZERO;
 
   return (
     <div className="DoExerciseIntroduction flex items-center">
@@ -19,9 +20,9 @@ const DoExerciseIntroduction: React.FC<TDoExerciseIntroductionProps> = ({ onStar
         <h1>Xin Chào! 👋</h1>
         <br />
         <p>
-          Chúc mừng bạn vừa hoàn thành bài học <strong>{myCourseLessonState?.lesson?.exercise?.name}</strong>.
+          Chúc mừng bạn vừa hoàn thành bài học <strong>{lessonState?.exercise?.name}</strong>.
           <br />
-          Trước khi làm bài tập <strong>{myCourseLessonState?.lesson?.name}</strong>, hãy đảm bảo rằng bạn đã{' '}
+          Trước khi làm bài tập <strong>{lessonState?.name}</strong>, hãy đảm bảo rằng bạn đã{' '}
           <strong>chuẩn bị và ghi nhớ đầy đủ kiến thức</strong> của bài học.
         </p>
 

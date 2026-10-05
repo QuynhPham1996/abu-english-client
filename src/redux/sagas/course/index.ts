@@ -1,8 +1,10 @@
 import { all, takeLatest } from 'redux-saga/effects';
 
 import {
+  attachCourseAssignmentsAction,
   createCourseAction,
   deleteCoursesAction,
+  getCourseAssignmentsAction,
   getCourseAction,
   getCoursesAvailableAction,
   getCoursesAction,
@@ -14,7 +16,9 @@ import {
   watchingExerciseVideoAction,
 } from '@/redux/actions';
 
+import { attachCourseAssignmentsSaga } from './attach-course-assignments';
 import { createCourseSaga } from './create-course';
+import { getCourseAssignmentsSaga } from './get-course-assignments';
 import { deleteCoursesSaga } from './delete-courses';
 import { getCourseSaga } from './get-course';
 import { getCoursesAvailableSaga } from './get-courses-available';
@@ -28,7 +32,9 @@ import { watchingExerciseVideoSaga } from './watching-exercise-video';
 
 export default function* root(): Generator {
   yield all([
+    takeLatest(attachCourseAssignmentsAction.request.type, attachCourseAssignmentsSaga),
     takeLatest(createCourseAction.request.type, createCourseSaga),
+    takeLatest(getCourseAssignmentsAction.request.type, getCourseAssignmentsSaga),
     takeLatest(deleteCoursesAction.request.type, deleteCoursesSaga),
     takeLatest(getCourseAction.request.type, getCourseSaga),
     takeLatest(getCoursesAvailableAction.request.type, getCoursesAvailableSaga),

@@ -11,6 +11,9 @@ import questionReducer from './question';
 import testReducer from './test';
 import uiReducer from './ui';
 import userReducer from './user';
+import questionGroupReducer from './question-group';
+import questionBankReducer from './question-bank';
+import assignmentReducer from './assignment';
 
 const rootReducer = combineReducers({
   loadingReducer,
@@ -26,6 +29,9 @@ const rootReducer = combineReducers({
   testReducer,
   uiReducer,
   userReducer,
+  questionGroupReducer,
+  questionBankReducer,
+  assignmentReducer,
 });
 
 export default rootReducer;

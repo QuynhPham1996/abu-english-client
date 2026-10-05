@@ -12,4 +12,18 @@
   @media (max-width: 991px) {
     padding: 3.2rem 2.4rem;
   }
+
+  &.is-doing {
+    max-width: none;
+    margin: -2.4rem;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+    min-height: calc(100vh - 6.5rem);
+
+    .LessonPreview {
+      height: calc(100vh - 6.5rem);
+    }
+  }
 }
