@@ -222,7 +222,8 @@ const ModalQuestionBankForm: React.FC<TModalQuestionBankFormProps> = ({
     if (visible) {
       form.resetFields();
       setFormValues({});
-      const nestedChildren = Array.isArray(data?.children) ? data.children : [];
+      const sourceChildren = data?.children;
+      const nestedChildren = Array.isArray(sourceChildren) ? sourceChildren : [];
       setChildren(
         nestedChildren.map((child) => ({
           key: child.id || uuidv4(),
