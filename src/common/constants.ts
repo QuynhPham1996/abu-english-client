@@ -113,6 +113,11 @@ export const dataLessonTypeOptions = [
   { value: ELessonType.ESSAY, label: 'Tự Luận', data: { iconName: EIconName.Writing } },
 ];
 
+export const dataQuestionTypeOptions = [
+  ...dataLessonTypeOptions,
+  { value: ELessonType.FILL_BLANK, label: 'Điền từ', data: { iconName: EIconName.Pencil } },
+];
+
 export const dataLessonArrangeOptions = [
   { value: ELessonArrange.RANDOM, label: 'Ngẫu Nhiên', data: { iconName: EIconName.ArrowShuffle } },
   { value: ELessonArrange.ORDER, label: 'Thứ Tự', data: { iconName: EIconName.DirectionSign } },

@@ -19,7 +19,7 @@ import { Paths } from '@/routers/constants';
 import { useModalState, usePaginationTool } from '@/utils/hooks';
 import { EGetQuestionBankAction, getQuestionBankAction, getQuestionGroupAction } from '@/redux/actions';
 import { TRootState } from '@/redux/reducers';
-import { DEFAULT_PAGE, dataLessonStatusOptions, dataLessonTypeOptions } from '@/common/constants';
+import { DEFAULT_PAGE, dataLessonStatusOptions, dataQuestionTypeOptions } from '@/common/constants';
 import { EEmpty } from '@/common/enums';
 import { TQuestion } from '@/common/models';
 import { TGetQuestionBankResponse } from '@/services/api';
@@ -100,7 +100,7 @@ const QuestionGroupDetailManagement = () => {
       dataIndex: 'type',
       title: 'Loại',
       render: (_: string, record: TQuestion): React.ReactElement => {
-        const type = dataLessonTypeOptions.find((option) => option.value === record?.type);
+        const type = dataQuestionTypeOptions.find((option) => option.value === record?.type);
         return <Tag type={ETagType.GENERAL} title={type?.label} iconName={type?.data?.iconName} size="small" />;
       },
     },
@@ -213,7 +213,7 @@ const QuestionGroupDetailManagement = () => {
                               <Select
                                 placeholder="Loại"
                                 allowClear
-                                options={dataLessonTypeOptions}
+                                options={dataQuestionTypeOptions}
                                 onChange={(option): void => {
                                   setParamsRequest({
                                     ...paramsRequest,

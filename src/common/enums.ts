@@ -124,6 +124,7 @@ export enum EExerciseStatus {
 export enum ELessonType {
   MULTIPLE_CHOICE = 'MULTIPLE_CHOICE',
   ESSAY = 'ESSAY',
+  FILL_BLANK = 'FILL_BLANK',
 }
 
 export enum ELessonArrange {

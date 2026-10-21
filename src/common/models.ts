@@ -90,6 +90,7 @@ export type TQuestion = {
   index: number;
   note: string;
   type?: string;
+  multiple?: boolean;
   group?: TQuestionGroup | string;
   assignment?: TAssignment | string;
   sourceQuestionId?: string;

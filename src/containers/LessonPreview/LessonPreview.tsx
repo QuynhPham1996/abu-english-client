@@ -5,30 +5,23 @@ import { ELessonArrange, ELessonType } from '@/common/enums';
 import { TQuestion } from '@/common/models';
 import Loading from '@/components/Loading';
 import Empty from '@/components/Empty';
+import { formatQuestionHtml } from '@/utils/question';
 
 import { TDoExerciseData, TLessonPreviewProps, TPreviewLesson } from './LessonPreview.types';
 
-const stripHtml = (value?: string): string =>
-  (value || '')
-    .replace(/<[^>]*>/g, ' ')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-
-const stripAnswers = (question: TQuestion) => ({
+const stripAnswers = (question: TQuestion): TDoExerciseData => ({
   ...question,
+  multiple: Boolean(question.multiple) || (question.answers?.filter((answer) => answer.isCorrect).length || 0) > 1,
   answers: question.answers?.map((answer) => ({
     id: answer.id,
     title: answer.title,
     isCorrect: false,
   })),
+  children: orderBy(question.children || [], 'index', 'asc').map((child) => stripAnswers(child)),
 });
 
 const prepareQuestions = (lesson?: TPreviewLesson): TDoExerciseData[] => {
-  const questions = orderBy(lesson?.questions || [], 'index', 'asc').map((question) => ({
-    ...stripAnswers(question),
-    children: orderBy(question.children || [], 'index', 'asc').map((child) => stripAnswers(child)),
-  }));
+  const questions = orderBy(lesson?.questions || [], 'index', 'asc').map((question) => stripAnswers(question));
 
   if (lesson?.arrange === ELessonArrange.RANDOM) return shuffle(questions);
   return questions;
@@ -59,8 +52,69 @@ const LessonPreview: React.FC<TLessonPreviewProps> = ({
   const [duration, setDuration] = useState(0);
   const lesson = lessons.find((item) => item.id === lessonId) || lessons[0];
   const currentQuestion = questions[currentIndex];
-  const isEssayQuestion = (question?: TDoExerciseData): boolean =>
-    (question?.type || lesson?.type) === ELessonType.ESSAY;
+  const questionType = (question?: TDoExerciseData): string | undefined => question?.type || lesson?.type;
+
+  const renderResponse = (
+    question: TDoExerciseData | undefined,
+    value: string | undefined,
+    onValue: (next?: string) => void,
+    inputName: string,
+  ): React.ReactNode => {
+    const type = questionType(question);
+    if (type === ELessonType.ESSAY) {
+      return (
+        <textarea
+          value={value || ''}
+          placeholder="Nhập câu trả lời"
+          onChange={(event): void => onValue(event.target.value)}
+        />
+      );
+    }
+    if (type === ELessonType.FILL_BLANK) {
+      return (
+        <input
+          className="LessonPreview-fill"
+          value={value || ''}
+          placeholder="Nhập 1–2 từ"
+          onChange={(event): void => onValue(event.target.value)}
+        />
+      );
+    }
+
+    const chosen = new Set((value || '').split(',').filter(Boolean));
+    return (
+      <div className="LessonPreview-options">
+        {question?.answers?.map((answer) => (
+          <label key={answer.id} className={chosen.has(answer.id) ? 'is-selected' : undefined}>
+            <input
+              type={question?.multiple ? 'checkbox' : 'radio'}
+              name={inputName}
+              checked={chosen.has(answer.id)}
+              onChange={(): void => {
+                if (!question?.multiple) {
+                  onValue(answer.id);
+                  return;
+                }
+                const next = new Set(chosen);
+                if (next.has(answer.id)) next.delete(answer.id);
+                else next.add(answer.id);
+                onValue(Array.from(next).join(','));
+              }}
+            />
+            <div dangerouslySetInnerHTML={{ __html: formatQuestionHtml(answer.title) }} />
+          </label>
+        ))}
+      </div>
+    );
+  };
+
+  const responseHeading = (question?: TDoExerciseData): { title: string; hint: string } => {
+    const type = questionType(question);
+    if (type === ELessonType.ESSAY) return { title: 'TỰ LUẬN', hint: 'Viết câu trả lời.' };
+    if (type === ELessonType.FILL_BLANK) return { title: 'ĐIỀN TỪ', hint: 'Nhập 1–2 từ.' };
+    if (question?.multiple) return { title: 'TRẮC NGHIỆM', hint: 'Chọn tất cả đáp án đúng.' };
+    return { title: 'TRẮC NGHIỆM', hint: 'Chọn một đáp án.' };
+  };
 
   useEffect(() => {
     setQuestions(prepareQuestions(lesson));
@@ -150,7 +204,7 @@ const LessonPreview: React.FC<TLessonPreviewProps> = ({
           <section className="LessonPreview-pane" style={{ width: `${leftWidth}%` }}>
             <div className="LessonPreview-passage">
               <h2>Câu {currentIndex + 1}</h2>
-              <div dangerouslySetInnerHTML={{ __html: currentQuestion?.question || '' }} />
+              <div dangerouslySetInnerHTML={{ __html: formatQuestionHtml(currentQuestion?.question) }} />
             </div>
           </section>
 
@@ -166,57 +220,32 @@ const LessonPreview: React.FC<TLessonPreviewProps> = ({
                   <p>Trả lời các câu hỏi của câu {currentIndex + 1}.</p>
                   {currentQuestion.children.map((child, childIndex) => (
                     <article key={child.id || childIndex}>
-                      <h3>
-                        {childIndex + 1}. {stripHtml(child.question) || `Câu hỏi con ${childIndex + 1}`}
-                      </h3>
-                      {isEssayQuestion(child) ? (
-                        <textarea
-                          value={child.data || ''}
-                          placeholder="Nhập câu trả lời"
-                          onChange={(event): void => updateChildAnswer(childIndex, event.target.value)}
+                      <div className="LessonPreview-prompt">
+                        <strong>{childIndex + 1}.</strong>
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: formatQuestionHtml(child.question) || `Câu hỏi con ${childIndex + 1}`,
+                          }}
                         />
-                      ) : (
-                        <div className="LessonPreview-options">
-                          {child.answers?.map((answer) => (
-                            <label key={answer.id} className={child.data === answer.id ? 'is-selected' : undefined}>
-                              <input
-                                type="radio"
-                                name={`preview-child-${child.id || childIndex}`}
-                                checked={child.data === answer.id}
-                                onChange={(): void => updateChildAnswer(childIndex, answer.id)}
-                              />
-                              <span>{answer.title}</span>
-                            </label>
-                          ))}
-                        </div>
+                      </div>
+                      {renderResponse(
+                        child,
+                        child.data,
+                        (next): void => updateChildAnswer(childIndex, next),
+                        `preview-child-${child.id || childIndex}`,
                       )}
                     </article>
                   ))}
                 </>
               ) : (
                 <>
-                  <h2>{isEssayQuestion(currentQuestion) ? 'TỰ LUẬN' : 'TRẮC NGHIỆM'}</h2>
-                  <p>{isEssayQuestion(currentQuestion) ? 'Viết câu trả lời.' : 'Chọn một đáp án.'}</p>
-                  {isEssayQuestion(currentQuestion) ? (
-                    <textarea
-                      value={currentQuestion?.data || ''}
-                      placeholder="Nhập câu trả lời"
-                      onChange={(event): void => updateAnswer(event.target.value)}
-                    />
-                  ) : (
-                    <div className="LessonPreview-options">
-                      {currentQuestion?.answers?.map((answer) => (
-                        <label key={answer.id} className={currentQuestion.data === answer.id ? 'is-selected' : undefined}>
-                          <input
-                            type="radio"
-                            name={`preview-question-${currentQuestion.id || currentIndex}`}
-                            checked={currentQuestion.data === answer.id}
-                            onChange={(): void => updateAnswer(answer.id)}
-                          />
-                          <span>{answer.title}</span>
-                        </label>
-                      ))}
-                    </div>
+                  <h2>{responseHeading(currentQuestion).title}</h2>
+                  <p>{responseHeading(currentQuestion).hint}</p>
+                  {renderResponse(
+                    currentQuestion,
+                    currentQuestion?.data,
+                    updateAnswer,
+                    `preview-question-${currentQuestion?.id || currentIndex}`,
                   )}
                 </>
               )}

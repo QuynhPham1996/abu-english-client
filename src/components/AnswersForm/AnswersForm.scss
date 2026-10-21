@@ -1,6 +1,12 @@
 @import '@/assets/styles/_global.scss';
 
 .AnswersForm {
+  &-hint {
+    margin: 0 0 1.2rem;
+    color: $pale-sky;
+    font-size: 1.3rem;
+  }
+
   &-list {
     &-item {
       margin-bottom: 2.4rem;

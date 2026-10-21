@@ -14,7 +14,7 @@ import Tag, { ETagType } from '@/components/Tag';
 import Select from '@/components/Select';
 import { useModalState, usePaginationTool } from '@/utils/hooks';
 import { EGetQuestionBankAction, EGetQuestionGroupsAction, getQuestionBankAction, getQuestionGroupsAction } from '@/redux/actions';
-import { DEFAULT_PAGE, dataLessonTypeOptions } from '@/common/constants';
+import { DEFAULT_PAGE, dataQuestionTypeOptions } from '@/common/constants';
 import { TQuestion } from '@/common/models';
 import { TGetQuestionBankResponse, TGetQuestionGroupsResponse } from '@/services/api';
 import { ServerProtectedRoute } from '@/utils/server-side';
@@ -88,7 +88,7 @@ const QuestionsBankManagement = () => {
       dataIndex: 'type',
       title: 'Loại',
       render: (_: string, record: TQuestion): React.ReactElement => {
-        const type = dataLessonTypeOptions.find((option) => option.value === record?.type);
+        const type = dataQuestionTypeOptions.find((option) => option.value === record?.type);
         return (
           <Tag
             type={ETagType.GENERAL}
@@ -173,7 +173,7 @@ const QuestionsBankManagement = () => {
                             <Select
                               placeholder="Loại"
                               allowClear
-                              options={dataLessonTypeOptions}
+                              options={dataQuestionTypeOptions}
                               onChange={(option): void => {
                                 setParamsRequest({
                                   ...paramsRequest,

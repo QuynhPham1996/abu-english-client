@@ -8,6 +8,7 @@ import Button, { EButtonStyleType } from '@/components/Button';
 import { EIconColor, EIconName } from '@/components/Icon';
 import CkEditor from '@/components/CkEditor';
 import AnswersForm from '@/components/AnswersForm';
+import Input from '@/components/Input';
 import Select from '@/components/Select';
 import TextArea from '@/components/TextArea';
 import { getArrayFrom0To, showNotification, validationRules } from '@/utils/functions';
@@ -20,7 +21,7 @@ import {
   updateQuestionBankAction,
 } from '@/redux/actions';
 import { ELessonType, ETypeNotification } from '@/common/enums';
-import { dataLessonTypeOptions } from '@/common/constants';
+import { dataQuestionTypeOptions } from '@/common/constants';
 import { TAnswer, TQuestionGroup } from '@/common/models';
 import ModalQuestionGroupForm from '@/containers/ModalQuestionGroupForm';
 
@@ -41,6 +42,64 @@ const createAnswers = (): TAnswer[] =>
     title: '',
     isCorrect: false,
   }));
+
+const createFillAnswers = (): TAnswer[] => [
+  {
+    id: uuidv4(),
+    title: '',
+    isCorrect: true,
+  },
+];
+
+const plainText = (value?: string): string =>
+  (value || '')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const FillAnswersEditor: React.FC<{ value?: TAnswer[]; onChange?: (value: TAnswer[]) => void }> = ({
+  value = [],
+  onChange,
+}) => {
+  const answers = value.length ? value : createFillAnswers();
+
+  const updateTitle = (id: string, title: string): void => {
+    onChange?.(answers.map((item) => (item.id === id ? { ...item, title, isCorrect: true } : item)));
+  };
+
+  return (
+    <div className="QuestionBankFill">
+      <p>Học viên nhập 1–2 từ. Bài được chấm đúng nếu khớp một đáp án, không phân biệt hoa thường.</p>
+      {answers.map((answer, index) => (
+        <div className="QuestionBankFill-row" key={answer.id}>
+          <Input
+            placeholder={index === 0 ? 'Đáp án đúng' : 'Đáp án chấp nhận khác'}
+            value={answer.title}
+            maxLength={120}
+            onChange={(next): void => updateTitle(answer.id, String(next || ''))}
+          />
+          <Button
+            iconName={EIconName.Trash}
+            iconColor={EIconColor.SHARK}
+            styleType={EButtonStyleType.OUTLINE_GEYSER}
+            size="small"
+            disabled={answers.length <= 1}
+            onClick={(): void => onChange?.(answers.filter((item) => item.id !== answer.id))}
+          />
+        </div>
+      ))}
+      <Button
+        title="Thêm đáp án chấp nhận"
+        size="small"
+        iconName={EIconName.Plus}
+        iconColor={EIconColor.SHARK}
+        styleType={EButtonStyleType.OUTLINE_GEYSER}
+        onClick={(): void => onChange?.([...answers, ...createFillAnswers()])}
+      />
+    </div>
+  );
+};
 
 const createChild = (): TChildDraft => ({
   key: uuidv4(),
@@ -72,6 +131,7 @@ const ModalQuestionBankForm: React.FC<TModalQuestionBankFormProps> = ({
   );
   const loading = createLoading || updateLoading;
   const isMultipleChoice = formValues?.type?.value === ELessonType.MULTIPLE_CHOICE;
+  const isFill = formValues?.type?.value === ELessonType.FILL_BLANK;
   const hasChildren = children.length > 0;
 
   const groupOptions = [...extraGroups, ...groups]
@@ -97,25 +157,35 @@ const ModalQuestionBankForm: React.FC<TModalQuestionBankFormProps> = ({
   };
 
   const handleSubmit = (): void => {
-    const invalidChild = children.find(
-      (child) =>
-        !child.question?.trim() ||
-        (child.type === ELessonType.MULTIPLE_CHOICE &&
-          (child.answers.filter((answer) => answer.title).length < 2 ||
-            !child.answers.some((answer) => answer.isCorrect))),
-    );
+    const invalidChild = children.find((child) => {
+      if (!plainText(child.question)) return true;
+      if (child.type === ELessonType.MULTIPLE_CHOICE) {
+        return (
+          child.answers.filter((answer) => plainText(answer.title)).length < 2 ||
+          !child.answers.some((answer) => answer.isCorrect && plainText(answer.title))
+        );
+      }
+      if (child.type === ELessonType.FILL_BLANK) {
+        return !child.answers.some((answer) => plainText(answer.title));
+      }
+      return false;
+    });
     if (invalidChild) {
       showNotification(
         ETypeNotification.ERROR,
-        'Mỗi câu hỏi con cần nội dung. Câu trắc nghiệm cần ít nhất 2 đáp án và 1 đáp án đúng.',
+        'Mỗi câu hỏi con cần nội dung. Trắc nghiệm cần ít nhất 2 đáp án và 1 đáp án đúng. Câu điền từ cần đáp án đúng.',
       );
       return;
     }
 
     form.validateFields().then((values) => {
+      const answers =
+        hasChildren || (!isMultipleChoice && !isFill)
+          ? undefined
+          : values?.answers;
       const body = {
         question: values?.question,
-        answers: hasChildren || !isMultipleChoice ? undefined : values?.answers,
+        answers,
         note: values?.note,
         type: values?.type?.value,
         group: lockGroup ? groups[0]?.id : values?.group?.value,
@@ -124,7 +194,10 @@ const ModalQuestionBankForm: React.FC<TModalQuestionBankFormProps> = ({
           question: child.question,
           type: child.type,
           note: child.note,
-          answers: child.type === ELessonType.MULTIPLE_CHOICE ? child.answers : undefined,
+          answers:
+            child.type === ELessonType.MULTIPLE_CHOICE || child.type === ELessonType.FILL_BLANK
+              ? child.answers
+              : undefined,
         })),
       };
 
@@ -163,7 +236,7 @@ const ModalQuestionBankForm: React.FC<TModalQuestionBankFormProps> = ({
           question: data?.question,
           answers: data?.answers,
           note: data?.note,
-          type: dataLessonTypeOptions.find((option) => option.value === data?.type),
+          type: dataQuestionTypeOptions.find((option) => option.value === data?.type),
           group: groupOptions.find((option) => option.value === groupId),
         };
         setFormValues(dataChanged);
@@ -172,7 +245,7 @@ const ModalQuestionBankForm: React.FC<TModalQuestionBankFormProps> = ({
         const lockedGroup =
           lockGroup && groups[0] ? { label: groups[0].name, value: groups[0].id } : undefined;
         const dataChanged = {
-          type: dataLessonTypeOptions.find((option) => option.value === ELessonType.MULTIPLE_CHOICE),
+          type: dataQuestionTypeOptions.find((option) => option.value === ELessonType.MULTIPLE_CHOICE),
           group: lockedGroup,
           answers: getArrayFrom0To(4).map(() => ({
             id: uuidv4(),
@@ -198,7 +271,29 @@ const ModalQuestionBankForm: React.FC<TModalQuestionBankFormProps> = ({
       showActions
       loading={loading}
     >
-      <Form form={form} layout="vertical" onValuesChange={(_, values): void => setFormValues({ ...formValues, ...values })}>
+      <Form
+        form={form}
+        layout="vertical"
+        onValuesChange={(_, values): void => {
+          const nextType = values?.type?.value;
+          const prevType = formValues?.type?.value;
+          if (nextType && nextType !== prevType) {
+            if (nextType === ELessonType.FILL_BLANK) {
+              const answers = createFillAnswers();
+              form.setFieldsValue({ answers });
+              setFormValues({ ...formValues, ...values, answers });
+              return;
+            }
+            if (nextType === ELessonType.MULTIPLE_CHOICE && prevType === ELessonType.FILL_BLANK) {
+              const answers = createAnswers();
+              form.setFieldsValue({ answers });
+              setFormValues({ ...formValues, ...values, answers });
+              return;
+            }
+          }
+          setFormValues({ ...formValues, ...values });
+        }}
+      >
         <Row gutter={[16, 16]}>
           {!lockGroup && (
             <Col span={24}>
@@ -223,7 +318,7 @@ const ModalQuestionBankForm: React.FC<TModalQuestionBankFormProps> = ({
           )}
           <Col span={24}>
             <Form.Item label="Loại câu hỏi" name="type" required rules={[validationRules.required()]}>
-              <Select options={dataLessonTypeOptions} />
+              <Select options={dataQuestionTypeOptions} />
             </Form.Item>
           </Col>
           <Col span={24}>
@@ -251,6 +346,25 @@ const ModalQuestionBankForm: React.FC<TModalQuestionBankFormProps> = ({
               />
             </Form.Item>
           </Col>
+          {isFill && !hasChildren && (
+            <Col span={24}>
+              <Form.Item
+                label="Đáp án đúng"
+                name="answers"
+                required
+                rules={[
+                  {
+                    validator: (_, value: TAnswer[]): Promise<void> => {
+                      if (value?.some((answer) => plainText(answer.title))) return Promise.resolve();
+                      return Promise.reject(new Error('Vui lòng nhập ít nhất 1 đáp án đúng.'));
+                    },
+                  },
+                ]}
+              >
+                <FillAnswersEditor />
+              </Form.Item>
+            </Col>
+          )}
           {isMultipleChoice && !hasChildren && (
             <Col span={24}>
               <Form.Item
@@ -269,19 +383,9 @@ const ModalQuestionBankForm: React.FC<TModalQuestionBankFormProps> = ({
           )}
           <Col span={24}>
             <div className="QuestionBankChildren">
-              <div className="QuestionBankChildren-header flex items-center justify-between">
-                <div>
-                  <strong>Câu hỏi con</strong>
-                  <p>Câu cha là phần nội dung. Mỗi câu con là một câu học viên phải trả lời.</p>
-                </div>
-                <Button
-                  title="Thêm câu con"
-                  size="small"
-                  iconName={EIconName.Plus}
-                  iconColor={EIconColor.WHITE}
-                  styleType={EButtonStyleType.PRIMARY}
-                  onClick={(): void => setChildren((current) => [...current, createChild()])}
-                />
+              <div className="QuestionBankChildren-header">
+                <strong>Câu hỏi con</strong>
+                <p>Câu cha là phần nội dung. Mỗi câu con là một câu học viên phải trả lời.</p>
               </div>
               {children.length === 0 && <div className="QuestionBankChildren-empty">Chưa có câu hỏi con.</div>}
               {children.map((child, index) => (
@@ -301,23 +405,28 @@ const ModalQuestionBankForm: React.FC<TModalQuestionBankFormProps> = ({
                     />
                   </div>
                   <Select
-                    value={dataLessonTypeOptions.find((option) => option.value === child.type)}
-                    options={dataLessonTypeOptions}
+                    value={dataQuestionTypeOptions.find((option) => option.value === child.type)}
+                    options={dataQuestionTypeOptions}
                     onChange={(option): void =>
                       updateChild(child.key, {
                         type: option?.value,
                         answers:
                           option?.value === ELessonType.MULTIPLE_CHOICE
-                            ? child.answers?.length
+                            ? child.type === ELessonType.MULTIPLE_CHOICE && child.answers?.length
                               ? child.answers
                               : createAnswers()
-                            : [],
+                            : option?.value === ELessonType.FILL_BLANK
+                              ? child.type === ELessonType.FILL_BLANK && child.answers?.length
+                                ? child.answers
+                                : createFillAnswers()
+                              : [],
                       })
                     }
                   />
                   <TextArea
                     className="resizable"
-                    placeholder="Nội dung câu hỏi con"
+                    autoSize
+                    placeholder="Nội dung câu hỏi con. Xuống dòng sẽ được giữ khi học viên làm bài."
                     value={child.question}
                     onChange={(value): void => updateChild(child.key, { question: value || '' })}
                   />
@@ -327,13 +436,36 @@ const ModalQuestionBankForm: React.FC<TModalQuestionBankFormProps> = ({
                       onChange={(answers): void => updateChild(child.key, { answers: answers || [] })}
                     />
                   )}
+                  {child.type === ELessonType.FILL_BLANK && (
+                    <FillAnswersEditor
+                      value={child.answers}
+                      onChange={(answers): void => updateChild(child.key, { answers: answers || [] })}
+                    />
+                  )}
+                  <div className="QuestionBankChildren-note">
+                    <span>Giải thích</span>
+                    <TextArea
+                      className="resizable"
+                      autoSize
+                      placeholder="Giải thích cho đáp án của câu này"
+                      value={child.note}
+                      onChange={(value): void => updateChild(child.key, { note: value || '' })}
+                    />
+                  </div>
                 </div>
               ))}
+              <Button
+                title="Thêm câu con"
+                iconName={EIconName.Plus}
+                iconColor={EIconColor.WHITE}
+                styleType={EButtonStyleType.PRIMARY}
+                onClick={(): void => setChildren((current) => [...current, createChild()])}
+              />
             </div>
           </Col>
           <Col span={24}>
-            <Form.Item label="Ghi chú" name="note">
-              <TextArea maxLength={255} showCount />
+            <Form.Item label={hasChildren ? 'Ghi chú chung' : 'Ghi chú'} name="note">
+              <TextArea autoSize placeholder="Ghi chú không giới hạn ký tự" />
             </Form.Item>
           </Col>
         </Row>

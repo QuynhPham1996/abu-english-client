@@ -11,19 +11,16 @@ import { TAnswer } from '@/common/models';
 import { TAnswersFormProps } from './AnswersForm.types.d';
 
 const AnswersForm: React.FC<TAnswersFormProps> = ({ value = [], onChange }) => {
-  const handleSelectCorrectAnswer = (data: TAnswer): void => {
+  const handleSelectCorrectAnswer = (data: TAnswer, checked: boolean): void => {
     const newData = value.map((item) => {
       if (item.id === data.id) {
         return {
           ...item,
-          isCorrect: true,
+          isCorrect: checked,
         };
       }
 
-      return {
-        ...item,
-        isCorrect: false,
-      };
+      return item;
     });
 
     onChange?.(newData);
@@ -63,6 +60,7 @@ const AnswersForm: React.FC<TAnswersFormProps> = ({ value = [], onChange }) => {
 
   return (
     <div className="AnswersForm">
+      <p className="AnswersForm-hint">Đánh dấu đáp án đúng. Có thể chọn nhiều hơn một.</p>
       <div className="AnswersForm-list">
         {value.map((item) => {
           const isCorrect = item.isCorrect;
@@ -72,7 +70,11 @@ const AnswersForm: React.FC<TAnswersFormProps> = ({ value = [], onChange }) => {
             <div key={item.id} className="AnswersForm-list-item">
               <Row gutter={[16, 16]} align="middle" wrap={false}>
                 <Col>
-                  <Checkbox size="large" value={isCorrect} onChange={(): void => handleSelectCorrectAnswer(item)} />
+                  <Checkbox
+                    size="large"
+                    value={isCorrect}
+                    onChange={(checked): void => handleSelectCorrectAnswer(item, Boolean(checked))}
+                  />
                 </Col>
                 <Col flex={1}>
                   <CkEditor

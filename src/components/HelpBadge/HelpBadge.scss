@@ -8,6 +8,8 @@
   font-size: 1.4rem;
   font-weight: 700;
   column-gap: 0.8rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 
   &.WARNING {
     border-color: $sunglow;

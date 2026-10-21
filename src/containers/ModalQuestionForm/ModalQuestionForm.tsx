@@ -168,7 +168,7 @@ const ModalQuestionForm: React.FC<TModalQuestionFormProps> = ({
             )}
             <Col span={24}>
               <Form.Item label="Ghi chú" name="note">
-                <TextArea maxLength={255} showCount />
+                <TextArea autoSize placeholder="Giải thích cho câu trả lời" />
               </Form.Item>
             </Col>
           </Row>

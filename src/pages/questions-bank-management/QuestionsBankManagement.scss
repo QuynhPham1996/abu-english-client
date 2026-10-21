@@ -66,6 +66,40 @@
       font-weight: 600;
     }
   }
+
+  &-note {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+
+    span {
+      color: $shark;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+  }
+}
+
+.QuestionBankFill {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  p {
+    margin: 0;
+    color: $pale-sky;
+    font-size: 1.3rem;
+  }
+
+  &-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .Input {
+      flex: 1;
+    }
+  }
 }
 
 .QuestionsBankManagement {

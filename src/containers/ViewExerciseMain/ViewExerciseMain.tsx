@@ -10,6 +10,7 @@ import AnswerRadio from '@/components/AnswerRadio';
 import HelpBadge, { EHelpBadgeType } from '@/components/HelpBadge';
 import { TRootState } from '@/redux/reducers';
 import { ELessonType, ETestStatus, EUserRole } from '@/common/enums';
+import { formatQuestionHtml, isChoiceAnswerCorrect, isFillAnswerCorrect, questionHasHtml } from '@/utils/question';
 import CkEditor from '@/components/CkEditor';
 import Tooltip from '@/components/Tooltip';
 import ModalConfirmSubmitGraded from '@/containers/ModalConfirmSubmitGraded';
@@ -79,32 +80,48 @@ const ViewExerciseMain: React.FC<TViewExerciseMainProps> = () => {
     setDoExerciseState(newData);
   };
 
+  const currentType = currentDoExerciseState?.type || testState?.data?.lesson?.type;
+  const isCurrentChoice = currentType === ELessonType.MULTIPLE_CHOICE;
+  const isCurrentEssay = currentType === ELessonType.ESSAY;
+  const isCurrentFill = currentType === ELessonType.FILL_BLANK;
+
   useEffect(() => {
     if (testState) {
-      console.log(testState);
+      const lessonType = testState?.data?.lesson?.type;
       const parseData: any = testState?.data?.userAnswers
         ?.map((userAnswer) => {
-          const question = testState?.questions?.find((question) => question.id === userAnswer.question);
+          const question = testState?.questions?.find((item) => item.id === userAnswer.question);
           if (question) {
-            const userAnswerChoose = userAnswer?.answer;
-            const correctAnswer = question?.answers?.find((answer) => answer.isCorrect);
-            const isCorrectMultipleChoice = isMultipleChoiceType ? correctAnswer?.id === userAnswerChoose : undefined;
-            const isCorrectEssay = isEssayType ? userAnswer?.isCorrect : undefined;
-
-            const isCorrect = isCorrectMultipleChoice || isCorrectEssay;
+            const questionType = question?.type || lessonType;
+            const chosen = String(userAnswer?.answer || '')
+              .split(',')
+              .map((item) => item.trim())
+              .filter(Boolean);
+            const correctIds = question?.answers?.filter((answer) => answer.isCorrect).map((answer) => answer.id) || [];
+            const isChoice = questionType === ELessonType.MULTIPLE_CHOICE;
+            const isFill = questionType === ELessonType.FILL_BLANK;
+            const isEssay = questionType === ELessonType.ESSAY;
+            const isCorrect = isChoice
+              ? isChoiceAnswerCorrect(userAnswer?.answer, question?.answers)
+              : isFill
+                ? isFillAnswerCorrect(userAnswer?.answer, question?.answers)
+                : isEssay
+                  ? userAnswer?.isCorrect
+                  : undefined;
 
             return {
               ...question,
-              data: isMultipleChoiceType
-                ? { value: userAnswer?.answer, label: userAnswer?.answer }
+              type: questionType,
+              data: isChoice
+                ? { value: chosen.length === 1 ? chosen[0] : undefined, label: userAnswer?.answer }
                 : userAnswer?.answer,
               isCorrect,
               note: userAnswer?.note || question?.note,
               answers: question?.answers?.map((answer) => {
                 return {
                   ...answer,
-                  incorrect: answer.id === userAnswerChoose ? !isCorrect : undefined,
-                  correct: answer.id === correctAnswer?.id,
+                  incorrect: isChoice ? chosen.includes(answer.id) && !correctIds.includes(answer.id) : undefined,
+                  correct: isChoice ? correctIds.includes(answer.id) : undefined,
                 };
               }),
             };
@@ -179,11 +196,11 @@ const ViewExerciseMain: React.FC<TViewExerciseMainProps> = () => {
               className="ViewExerciseMain-title"
               style={{ fontSize: '2rem', fontWeight: 600, marginBottom: '1.2rem' }}
               dangerouslySetInnerHTML={{
-                __html: currentDoExerciseState?.question,
+                __html: formatQuestionHtml(currentDoExerciseState?.question),
               }}
             />
 
-            {isMultipleChoiceType && (
+            {isCurrentChoice && (
               <AnswerRadio
                 value={currentDoExerciseState?.data}
                 disabled
@@ -198,37 +215,56 @@ const ViewExerciseMain: React.FC<TViewExerciseMainProps> = () => {
               />
             )}
 
-            {isEssayType && (
+            {isCurrentFill && (
+              <div className="ViewExerciseMain-essay">
+                <div>{currentDoExerciseState?.data || 'Chưa trả lời'}</div>
+                {!!currentDoExerciseState?.answers?.some((answer) => answer.isCorrect && answer.title) && (
+                  <p>
+                    Đáp án đúng:{' '}
+                    {currentDoExerciseState.answers
+                      .filter((answer) => answer.isCorrect && answer.title)
+                      .map((answer) => answer.title)
+                      .join(' / ')}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {isCurrentEssay && (
               <>
-                <CkEditor
-                  toolbar={{
-                    items: [
-                      'heading',
-                      '|',
-                      'fontColor',
-                      '|',
-                      'bold',
-                      'italic',
-                      'underline',
-                      'strikethrough',
-                      '|',
-                      'superscript',
-                      'subscript',
-                      '|',
-                      'alignment',
-                      'outdent',
-                      'indent',
-                      '|',
-                      'bulletedList',
-                      'numberedList',
-                      '|',
-                      'undo',
-                      'redo',
-                    ],
-                  }}
-                  value={currentDoExerciseState?.data}
-                  disabled
-                />
+                {questionHasHtml(String(currentDoExerciseState?.data || '')) ? (
+                  <CkEditor
+                    toolbar={{
+                      items: [
+                        'heading',
+                        '|',
+                        'fontColor',
+                        '|',
+                        'bold',
+                        'italic',
+                        'underline',
+                        'strikethrough',
+                        '|',
+                        'superscript',
+                        'subscript',
+                        '|',
+                        'alignment',
+                        'outdent',
+                        'indent',
+                        '|',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'undo',
+                        'redo',
+                      ],
+                    }}
+                    value={currentDoExerciseState?.data}
+                    disabled
+                  />
+                ) : (
+                  <div className="ViewExerciseMain-essay">{currentDoExerciseState?.data || 'Chưa trả lời'}</div>
+                )}
 
                 {isAvailableGraded && (
                   <div className="ViewExerciseMain-note" style={{ marginTop: '4.8rem' }}>
