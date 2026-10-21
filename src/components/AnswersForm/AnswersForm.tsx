@@ -10,9 +10,10 @@ import { TAnswer } from '@/common/models';
 
 import { TAnswersFormProps } from './AnswersForm.types.d';
 
-const AnswersForm: React.FC<TAnswersFormProps> = ({ value = [], onChange }) => {
+const AnswersForm: React.FC<TAnswersFormProps> = ({ value, onChange }) => {
+  const answers = Array.isArray(value) ? value.filter((item) => item?.id) : [];
   const handleSelectCorrectAnswer = (data: TAnswer, checked: boolean): void => {
-    const newData = value.map((item) => {
+    const newData = answers.map((item) => {
       if (item.id === data.id) {
         return {
           ...item,
@@ -27,7 +28,7 @@ const AnswersForm: React.FC<TAnswersFormProps> = ({ value = [], onChange }) => {
   };
 
   const handleChangeTitleAnswer = (data: TAnswer, content?: string): void => {
-    const newData = value.map((item) => {
+    const newData = answers.map((item) => {
       if (item.id === data.id) {
         return {
           ...item,
@@ -42,13 +43,13 @@ const AnswersForm: React.FC<TAnswersFormProps> = ({ value = [], onChange }) => {
   };
 
   const handleDeleteAnswer = (data: TAnswer): void => {
-    const newData = value.filter((item) => item.id !== data.id);
+    const newData = answers.filter((item) => item.id !== data.id);
     onChange?.(newData);
   };
 
   const handleAddAnswer = (): void => {
     const newData = [
-      ...value,
+      ...answers,
       {
         id: uuidv4(),
         title: '',
@@ -62,9 +63,9 @@ const AnswersForm: React.FC<TAnswersFormProps> = ({ value = [], onChange }) => {
     <div className="AnswersForm">
       <p className="AnswersForm-hint">Đánh dấu đáp án đúng. Có thể chọn nhiều hơn một.</p>
       <div className="AnswersForm-list">
-        {value.map((item) => {
+        {answers.map((item) => {
           const isCorrect = item.isCorrect;
-          const isAvailableDelete = value.length > 2;
+          const isAvailableDelete = answers.length > 2;
 
           return (
             <div key={item.id} className="AnswersForm-list-item">

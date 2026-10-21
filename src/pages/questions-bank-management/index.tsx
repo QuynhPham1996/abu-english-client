@@ -115,7 +115,19 @@ const QuestionsBankManagement = () => {
                   iconColor={EIconColor.SHARK}
                   size="small"
                   styleType={EButtonStyleType.OUTLINE_GEYSER}
-                  onClick={(): void => handleOpenFormModal(record)}
+                  onClick={(): void => {
+                    if (!record.parentId) {
+                      handleOpenFormModal(record);
+                      return;
+                    }
+                    const parent = (questionsState?.data || []).find((item) => item.id === record.parentId);
+                    handleOpenFormModal({
+                      ...record,
+                      children: [],
+                      group: record.group || parent?.group,
+                      answers: Array.isArray(record.answers) ? record.answers : [],
+                    });
+                  }}
                 />
               </Tooltip>
             </Col>

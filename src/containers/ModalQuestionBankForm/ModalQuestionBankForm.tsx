@@ -179,6 +179,7 @@ const ModalQuestionBankForm: React.FC<TModalQuestionBankFormProps> = ({
     }
 
     form.validateFields().then((values) => {
+      const editingChild = Boolean(data?.parentId);
       const answers =
         hasChildren || (!isMultipleChoice && !isFill)
           ? undefined
@@ -189,16 +190,18 @@ const ModalQuestionBankForm: React.FC<TModalQuestionBankFormProps> = ({
         note: values?.note,
         type: values?.type?.value,
         group: lockGroup ? groups[0]?.id : values?.group?.value,
-        children: children.map((child) => ({
-          id: child.id,
-          question: child.question,
-          type: child.type,
-          note: child.note,
-          answers:
-            child.type === ELessonType.MULTIPLE_CHOICE || child.type === ELessonType.FILL_BLANK
-              ? child.answers
-              : undefined,
-        })),
+        children: editingChild
+          ? undefined
+          : children.map((child) => ({
+              id: child.id,
+              question: child.question,
+              type: child.type,
+              note: child.note,
+              answers:
+                child.type === ELessonType.MULTIPLE_CHOICE || child.type === ELessonType.FILL_BLANK
+                  ? child.answers
+                  : undefined,
+            })),
       };
 
       if (data) {
@@ -219,22 +222,25 @@ const ModalQuestionBankForm: React.FC<TModalQuestionBankFormProps> = ({
     if (visible) {
       form.resetFields();
       setFormValues({});
+      const nestedChildren = Array.isArray(data?.children) ? data.children : [];
       setChildren(
-        (data?.children || []).map((child) => ({
+        nestedChildren.map((child) => ({
           key: child.id || uuidv4(),
           id: child.id,
           question: child.question,
           type: child.type || ELessonType.MULTIPLE_CHOICE,
-          answers: child.answers?.length ? child.answers : createAnswers(),
+          answers: Array.isArray(child.answers) && child.answers.length ? child.answers : createAnswers(),
           note: child.note,
         })),
       );
 
       if (data) {
-        const groupId = typeof data?.group === 'object' ? data?.group?.id : data?.group;
+        const groupSource = data?.group;
+        const groupId =
+          groupSource && typeof groupSource === 'object' ? groupSource.id : groupSource || undefined;
         const dataChanged = {
           question: data?.question,
-          answers: data?.answers,
+          answers: Array.isArray(data?.answers) ? data.answers : [],
           note: data?.note,
           type: dataQuestionTypeOptions.find((option) => option.value === data?.type),
           group: groupOptions.find((option) => option.value === groupId),
@@ -382,6 +388,7 @@ const ModalQuestionBankForm: React.FC<TModalQuestionBankFormProps> = ({
             </Col>
           )}
           <Col span={24}>
+            {!data?.parentId && (
             <div className="QuestionBankChildren">
               <div className="QuestionBankChildren-header">
                 <strong>Câu hỏi con</strong>
@@ -462,6 +469,7 @@ const ModalQuestionBankForm: React.FC<TModalQuestionBankFormProps> = ({
                 onClick={(): void => setChildren((current) => [...current, createChild()])}
               />
             </div>
+            )}
           </Col>
           <Col span={24}>
             <Form.Item label={hasChildren ? 'Ghi chú chung' : 'Ghi chú'} name="note">

@@ -120,7 +120,19 @@ const QuestionGroupDetailManagement = () => {
                   iconColor={EIconColor.SHARK}
                   size="small"
                   styleType={EButtonStyleType.OUTLINE_GEYSER}
-                  onClick={(): void => handleOpenQuestionFormModal(record)}
+                  onClick={(): void => {
+                    if (!record.parentId) {
+                      handleOpenQuestionFormModal(record);
+                      return;
+                    }
+                    const parent = (questionsState?.data || []).find((item) => item.id === record.parentId);
+                    handleOpenQuestionFormModal({
+                      ...record,
+                      children: [],
+                      group: record.group || parent?.group || groupState,
+                      answers: Array.isArray(record.answers) ? record.answers : [],
+                    });
+                  }}
                 />
               </Tooltip>
             </Col>

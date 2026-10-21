@@ -1,13 +1,34 @@
 import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
+import { questionHasHtml } from '@/utils/question';
+
 import CkEditorAdapter from './CkEditorAdapter';
 import { TCkEditorProps } from './CkEditor.types';
+
+const toEditorHtml = (value?: string): string => {
+  const source = value || '';
+  if (!source.trim()) return '';
+  if (questionHasHtml(source)) return source;
+
+  return source
+    .split(/\n{2,}/)
+    .map((block) => {
+      const safe = block
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\n/g, '<br>');
+      return `<p>${safe || '<br>'}</p>`;
+    })
+    .join('');
+};
 
 export const CkEditor: React.FC<TCkEditorProps> = ({ value, toolbar, disabled, onChange }) => {
   const editorRef = useRef<any>();
   const [editorLoaded, setEditorLoaded] = useState(false);
   const { CKEditor, ClassicEditor } = editorRef.current || {};
+  const editorHtml = toEditorHtml(value);
 
   function customCkEditorAdapter(editor: any): any {
     // eslint-disable-next-line no-param-reassign
@@ -22,8 +43,9 @@ export const CkEditor: React.FC<TCkEditorProps> = ({ value, toolbar, disabled, o
     extraPlugins: [customCkEditorAdapter],
   };
 
-  const handleEditorChange = async (event: any, editor: any): Promise<void> => {
-    const data = await editor.getData();
+  const handleEditorChange = (event: any, editor: any): void => {
+    const data = editor.getData();
+    if (!data || data === editorHtml) return;
     onChange?.(data);
   };
 
@@ -48,8 +70,9 @@ export const CkEditor: React.FC<TCkEditorProps> = ({ value, toolbar, disabled, o
             : config
         }
         editor={ClassicEditor}
-        data={value || ''}
+        data={editorHtml}
         onChange={handleEditorChange}
+        onError={(): void => undefined}
       />
     </div>
   ) : (
